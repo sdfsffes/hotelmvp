@@ -1,0 +1,141 @@
+// src/components/ServiceCard.jsx
+import { useState } from "react";
+
+export default function ServiceCard({ service, onBookNow }) {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  const categoryColors = {
+    Dining: "from-amber-600 to-amber-800",
+    Wellness: "from-emerald-600 to-teal-700",
+    Adventure: "from-sky-600 to-blue-800",
+    Activities: "from-purple-600 to-indigo-700",
+    Family: "from-rose-500 to-pink-700"
+  };
+  
+  const bgColor = categoryColors[service.category] || "from-amber-600 to-amber-800";
+
+  return (
+    <div 
+      className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Popular Badge */}
+      {service.popular && (
+        <div className="absolute top-4 left-4 z-20 bg-gradient-to-r from-amber-500 to-amber-700 text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1 tracking-wide uppercase">
+          <span className="text-yellow-300 text-xs">★</span>
+          Most Popular
+          <span className="text-yellow-300 text-xs">★</span>
+        </div>
+      )}
+
+      {/* Image/Icon Container - Movenpick Style */}
+      <div className={`relative h-56 overflow-hidden bg-gradient-to-br ${bgColor}`}>
+        <div className="absolute inset-0 bg-black/10 group-hover:bg-black/5 transition-all duration-500"></div>
+        
+        {/* Decorative Swiss cross pattern */}
+        <div className="absolute top-4 right-4 opacity-10">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
+            <path d="M12 2L15 8H21L16 12L18 18L12 14L6 18L8 12L3 8H9L12 2Z" />
+          </svg>
+        </div>
+        
+        {/* Main Icon */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className={`text-8xl transition-all duration-500 ${isHovered ? 'scale-110 rotate-3' : 'scale-100'}`}>
+            {service.icon}
+          </span>
+        </div>
+        
+        {/* Overlay gradient */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/40 to-transparent"></div>
+        
+        {/* Code Badge */}
+        <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md rounded-full px-3 py-1">
+          <span className="text-white text-[10px] font-mono font-bold tracking-wider">{service.code}</span>
+        </div>
+        
+        {/* Category Badge */}
+        <div className="absolute bottom-4 left-4 bg-white/20 backdrop-blur-md rounded-full px-3 py-1">
+          <span className="text-white text-[10px] font-semibold flex items-center gap-1 uppercase tracking-wide">
+            <span>{service.iconSmall || service.icon}</span>
+            <span>{service.category}</span>
+          </span>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-5">
+        {/* Title & Rating */}
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="text-lg font-serif font-bold text-gray-800 group-hover:text-amber-700 transition-colors">
+            {service.title}
+          </h3>
+          <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-lg">
+            <span className="text-amber-500 text-xs">★</span>
+            <span className="text-xs font-bold text-gray-700">{service.rating}</span>
+            <span className="text-[9px] text-gray-400">({service.reviewsCount})</span>
+          </div>
+        </div>
+
+        {/* Description */}
+        <p className="text-gray-500 text-xs leading-relaxed mb-3 line-clamp-2">
+          {service.shortDescription}
+        </p>
+
+        {/* Price & Time */}
+        <div className="flex justify-between items-center mb-3 pb-3 border-b border-gray-100">
+          <div className="flex items-baseline gap-1">
+            <span className="text-2xl font-bold text-amber-700">฿{service.price}</span>
+            <span className="text-[9px] text-gray-400">/ person</span>
+          </div>
+          <div className="flex items-center gap-1 text-gray-400 text-xs">
+            <span>🕒</span>
+            <span>{service.time}</span>
+          </div>
+        </div>
+
+        {/* Location */}
+        <div className="flex items-center gap-1 text-gray-400 text-xs mb-3">
+          <span>📍</span>
+          <span>{service.location}</span>
+        </div>
+
+        {/* Options */}
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {service.options.slice(0, 3).map((option, idx) => (
+            <span key={idx} className="text-[9px] bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+              {option}
+            </span>
+          ))}
+          {service.options.length > 3 && (
+            <span className="text-[9px] bg-gray-100 text-gray-400 px-2 py-1 rounded-full">
+              +{service.options.length - 3}
+            </span>
+          )}
+        </div>
+
+        {/* Book Button - Movenpick Style */}
+        <button
+          onClick={() => onBookNow(service)}
+          className="relative w-full overflow-hidden group/btn bg-gradient-to-r from-amber-600 to-amber-800 text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 hover:shadow-lg"
+        >
+          <span className="relative z-10 flex items-center justify-center gap-2">
+            <span>Reserve Experience</span>
+            <span className="transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+          </span>
+          <div className="absolute inset-0 bg-gradient-to-r from-amber-700 to-amber-900 transform translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></div>
+        </button>
+
+        {/* Swiss touch - small detail */}
+        <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <span className="text-[8px] text-gray-300">✦ Swiss Hospitality ✦</span>
+        </div>
+      </div>
+    </div>
+  );
+// В начале компонента добавьте className с анимацией
+<div 
+  className="service-card-animate opacity-0 translate-y-10 transition-all duration-700 ease-out"
+  // остальные классы...
+></div>}
