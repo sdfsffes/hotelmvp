@@ -1,7 +1,7 @@
 // src/components/Header.jsx
 import { useState, useEffect } from "react";
 
-export default function Header({ onAdminClick }) {
+export default function Header({ onAdminClick, onCategoryClick }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("home");
@@ -14,32 +14,62 @@ export default function Header({ onAdminClick }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
-    { id: "home", name: "Home", icon: "✦", href: "#" },
-    { id: "experiences", name: "Experiences", icon: "✦", href: "#services" },
-    { id: "dining", name: "Dining", icon: "✦", href: "#dining" },
-    { id: "wellness", name: "Wellness", icon: "✦", href: "#wellness" },
-    { id: "offers", name: "Offers", icon: "✦", href: "#offers" },
-    { id: "contact", name: "Contact", icon: "✦", href: "#contact" }
+  // Прикольные фразы для случайного отображения
+  const funPhrases = [
+    "Life is too short for boring stays ✨",
+    "Eat, sleep, swim, repeat 🌊",
+    "Where every moment tastes good 🍫",
+    "Happiness is a beachfront room 🌅",
+    "Savour the good life 🍷",
+    "Paradise found 🏝️",
+    "Sun, sea, and Swiss hospitality ☀️",
+    "Making memories by the sea 🌊",
+    "Live the sweet life 🍫",
+    "Your slice of paradise 🏖️"
   ];
+
+  const [currentPhrase, setCurrentPhrase] = useState(funPhrases[0]);
+
+  useEffect(() => {
+    // Меняем фразу каждые 5 секунд
+    const interval = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * funPhrases.length);
+      setCurrentPhrase(funPhrases[randomIndex]);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const navLinks = [
+    { id: "home", name: "Home", icon: "✦" },
+    { id: "experiences", name: "Experiences", icon: "✨" }
+  ];
+
+  const handleNavClick = (linkId) => {
+    setActiveLink(linkId);
+    if (linkId === "home") {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (linkId === "experiences") {
+      setTimeout(() => {
+        const section = document.getElementById('services-section');
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  };
 
   return (
     <>
-      {/* Top Bar - Swiss Hospitality */}
+      {/* Top Bar - Прикольная надпись */}
       <div className="hidden lg:block bg-[#1a1a2e] text-white/80 py-2">
         <div className="container mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
-              <span className="text-amber-400">✦</span>
-              <span className="text-[11px] tracking-wide">SWISS HOSPITALITY</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-amber-400">✦</span>
-              <span className="text-[11px] tracking-wide">SINCE 1948</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-amber-400">✦</span>
-              <span className="text-[11px] tracking-wide">WORLD TRAVEL AWARDS</span>
+              <span className="text-amber-400 text-lg">✦</span>
+              <span className="text-[13px] tracking-wide font-medium text-white/90">
+                {currentPhrase}
+              </span>
+              <span className="text-amber-400 text-lg">✦</span>
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -49,7 +79,7 @@ export default function Header({ onAdminClick }) {
             </div>
             <div className="flex items-center gap-1 text-[11px]">
               <span>⭐</span>
-              <span>Luxury Hotel Award</span>
+              <span>4.8 ★ Guest Rating</span>
             </div>
           </div>
         </div>
@@ -66,7 +96,15 @@ export default function Header({ onAdminClick }) {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex justify-between items-center">
             {/* Logo */}
-            <a href="#" className="flex items-center gap-3 group">
+            <a 
+              href="#" 
+              className="flex items-center gap-3 group"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setActiveLink("home");
+              }}
+            >
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-amber-700 rounded-full blur-xl opacity-60 group-hover:opacity-100 transition-opacity"></div>
                 <div className="relative bg-gradient-to-r from-amber-600 to-amber-800 rounded-full w-12 h-12 flex items-center justify-center shadow-lg transition-all group-hover:scale-105">
@@ -74,14 +112,10 @@ export default function Header({ onAdminClick }) {
                 </div>
               </div>
               <div>
-                <h1 className={`text-xl md:text-2xl font-serif font-bold tracking-tight transition-colors duration-500 ${
-                  isScrolled ? "text-gray-800" : "text-gray-800"
-                }`}>
+                <h1 className="text-xl md:text-2xl font-serif font-bold tracking-tight text-gray-800">
                   Movenpick
                 </h1>
-                <p className={`text-[9px] tracking-[3px] transition-colors duration-500 ${
-                  isScrolled ? "text-gray-400" : "text-gray-400"
-                }`}>HOTEL & RESORT</p>
+                <p className="text-[9px] tracking-[3px] text-gray-400">HOTEL & RESORT</p>
               </div>
             </a>
 
@@ -90,18 +124,15 @@ export default function Header({ onAdminClick }) {
               <ul className="flex gap-1">
                 {navLinks.map((link) => (
                   <li key={link.id}>
-                    <a
-                      href={link.href}
-                      onClick={() => setActiveLink(link.id)}
+                    <button
+                      onClick={() => handleNavClick(link.id)}
                       className={`relative px-4 py-2 text-sm font-medium transition-all duration-500 group flex items-center gap-1 ${
                         activeLink === link.id
                           ? "text-amber-700"
                           : "text-gray-700 hover:text-amber-600"
                       }`}
                     >
-                      <span className={`text-xs transition-all duration-300 ${activeLink === link.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
-                        {link.icon}
-                      </span>
+                      <span className="text-xs">{link.icon}</span>
                       <span>{link.name}</span>
                       {activeLink === link.id && (
                         <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-amber-500 to-amber-700 rounded-full"></span>
@@ -109,7 +140,7 @@ export default function Header({ onAdminClick }) {
                       <span className={`absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-amber-500 to-amber-700 transition-all duration-300 rounded-full group-hover:w-full ${
                         activeLink === link.id ? 'hidden' : ''
                       }`}></span>
-                    </a>
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -154,18 +185,17 @@ export default function Header({ onAdminClick }) {
         <div className={`lg:hidden overflow-hidden transition-all duration-700 ${isMobileMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
           <div className="bg-white border-t mt-4 py-4 px-4 space-y-2 shadow-xl">
             {navLinks.map((link) => (
-              <a
+              <button
                 key={link.id}
-                href={link.href}
-                className="flex items-center gap-3 px-4 py-3 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-amber-50 hover:to-amber-100 rounded-xl transition-all"
+                className="flex items-center gap-3 px-4 py-3 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-amber-50 hover:to-amber-100 rounded-xl transition-all w-full text-left"
                 onClick={() => {
                   setIsMobileMenuOpen(false);
-                  setActiveLink(link.id);
+                  handleNavClick(link.id);
                 }}
               >
                 <span className="text-base">{link.icon}</span>
                 <span>{link.name}</span>
-              </a>
+              </button>
             ))}
             <div className="pt-3 border-t">
               <button
@@ -189,4 +219,34 @@ export default function Header({ onAdminClick }) {
       </header>
     </>
   );
-}
+// src/components/Header.jsx - добавьте переключатель языка
+import { useState, useEffect } from "react";
+import { useLanguage } from "../context/LanguageContext";
+
+export default function Header({ onAdminClick, onCategoryClick }) {
+  const { translate, language, changeLanguage } = useLanguage();
+  // ... остальной код
+
+  // Добавьте в правую часть header:
+  <div className="hidden lg:flex items-center gap-3">
+    {/* Переключатель языка */}
+    <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1">
+      {['en', 'th', 'ru'].map((lang) => (
+        <button
+          key={lang}
+          onClick={() => changeLanguage(lang)}
+          className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-300 ${
+            language === lang
+              ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md'
+              : 'text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          {lang === 'en' && '🇬🇧 EN'}
+          {lang === 'th' && '🇹🇭 TH'}
+          {lang === 'ru' && '🇷🇺 RU'}
+        </button>
+      ))}
+    </div>
+    {/* ... остальные кнопки */}
+  </div>
+}}
