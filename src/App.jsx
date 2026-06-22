@@ -6,60 +6,91 @@ import ServiceCard from "./components/ServiceCard";
 import { services } from "./data/services";
 
 const categories = [
-  { id: "all", name: "All Services", icon: "🏠", color: "bg-gray-500" },
-  { id: "Dining", name: "Dining", icon: "🍽️", color: "bg-orange-500" },
-  { id: "Wellness", name: "Wellness & Spa", icon: "💆", color: "bg-emerald-500" },
-  { id: "Adventure", name: "Adventure", icon: "⛵", color: "bg-blue-500" },
-  { id: "Activities", name: "Activities", icon: "🎨", color: "bg-purple-500" },
-  { id: "Family", name: "Family", icon: "👨‍👩‍👧", color: "bg-pink-500" }
+  { id: "all", name: "All Experiences", icon: "✦" },
+  { id: "family", name: "Family Favourites", icon: "👨‍👩‍👧" },
+  { id: "wellness", name: "Sweet Retreats", icon: "💆" },
+  { id: "dining", name: "Gourmet Getaways", icon: "🍽️" },
+  { id: "adventure", name: "Adventure", icon: "⛵" },
+  { id: "activities", name: "Activities", icon: "🎨" }
 ];
 
-// Добавляем CSS анимации
-const animationsStyles = `
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+// Премиальные спецпредложения
+const offers = [
+  {
+    id: 1,
+    title: "Stay in the Moment",
+    description: "Experience mouth-watering culinary experiences, a slice of cosmopolitan culture with art, design and delicious views.",
+    discount: "25% OFF",
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=400&fit=crop"
+  },
+  {
+    id: 2,
+    title: "Stay and Save",
+    description: "Enjoy amazing discounts and breakfast included during your stay at Movenpick Hotels & Resorts.",
+    discount: "UP TO 30%",
+    image: "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&h=400&fit=crop"
+  },
+  {
+    id: 3,
+    title: "Indulgence is Back",
+    description: "It's time to savour life again! Unveiling an array of indulgent dining experiences.",
+    discount: "EXCLUSIVE",
+    image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=400&fit=crop"
   }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  @keyframes scaleUp {
-    from { transform: scale(0.95); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-  @keyframes slideUp {
-    from { transform: translateY(50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-  }
-  @keyframes pulse-slow {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); }
-  }
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-  @keyframes confettiFall {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-  }
-  .animate-fadeInUp { animation: fadeInUp 0.6s ease-out forwards; }
-  .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
-  .animate-scaleUp { animation: scaleUp 0.3s ease-out forwards; }
-  .animate-slideUp { animation: slideUp 0.3s ease-out forwards; }
-  .animate-float { animation: float 4s ease-in-out infinite; }
-  .animate-pulse-slow { animation: pulse-slow 2s ease-in-out infinite; }
-  .animate-bounce { animation: bounce 0.5s ease-in-out; }
-  .delay-200 { animation-delay: 0.2s; }
-  .delay-400 { animation-delay: 0.4s; }
-  .font-serif { font-family: 'Playfair Display', Georgia, serif; }
-`;
+];
 
+const brandValues = [
+  {
+    icon: "🍷",
+    title: "Food & Drink",
+    description: "We've been making mouth-watering moments for more than 70 years, creating culinary experiences bursting with flavour.",
+    link: "#"
+  },
+  {
+    icon: "🤝",
+    title: "Kilo of Kindness",
+    description: "Small acts of generosity can change lives. Our annual charity initiative brings together hotels, guests, and communities.",
+    link: "#"
+  },
+  {
+    icon: "📖",
+    title: "Serving the good life since 1948",
+    description: "When people are hungry for new ways to enjoy life, we deliver. Discover the essence of Movenpick.",
+    link: "#"
+  },
+  {
+    icon: "🌍",
+    title: "Nourishing the planet",
+    description: "The greatest indulgence is giving back to create a brighter future. A refreshing approach to sustainability.",
+    link: "#"
+  }
+];
+
+const testimonials = [
+  {
+    id: 1,
+    name: "Sarah Johnson",
+    review: "An unforgettable experience! The attention to detail and luxury service made our stay truly exceptional.",
+    rating: 5,
+    location: "Movenpick Phuket"
+  },
+  {
+    id: 2,
+    name: "Michael Chen",
+    review: "The culinary experience was outstanding. Every meal was a journey of flavors and artistry.",
+    rating: 5,
+    location: "Movenpick Bangkok"
+  },
+  {
+    id: 3,
+    name: "Emma Wilson",
+    review: "The spa and wellness retreat was exactly what we needed. Pure relaxation in a stunning setting.",
+    rating: 5,
+    location: "Movenpick Bali"
+  }
+];
+
+// Компонент Request Form (без изменений)
 function RequestForm({ service, onClose, onSuccess }) {
   const [formData, setFormData] = useState({
     name: "", email: "", phone: "", roomNumber: "", date: "", guests: "2", message: ""
@@ -138,7 +169,7 @@ function RequestForm({ service, onClose, onSuccess }) {
               {[1,2,3,4,5,6,7,8,9,10].map(num => <option key={num} value={num}>{num} Guest{num > 1 ? 's' : ''}</option>)}
             </select>
           </div>
-          <textarea rows="2" placeholder="Special Requests (dietary restrictions, allergies, special occasions...)" className="w-full p-3 border rounded-xl resize-none focus:ring-2 focus:ring-amber-500 outline-none transition-all focus:scale-[1.02]" onChange={e => setFormData({...formData, message: e.target.value})} />
+          <textarea rows="2" placeholder="Special Requests" className="w-full p-3 border rounded-xl resize-none focus:ring-2 focus:ring-amber-500 outline-none transition-all focus:scale-[1.02]" onChange={e => setFormData({...formData, message: e.target.value})} />
           <button type="submit" className="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white py-3 rounded-xl font-semibold hover:from-amber-600 hover:to-orange-600 transition-all duration-300 hover:scale-[1.02] shadow-md">Generate Reservation Code →</button>
         </form>
       </div>
@@ -188,6 +219,57 @@ function SuccessScreen({ request, onClose }) {
   );
 }
 
+// Компонент отзывов
+function TestimonialsSection({ testimonials }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [testimonials.length]);
+
+  return (
+    <section className="py-16 bg-gradient-to-r from-amber-50 to-orange-50/50">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-serif font-bold text-gray-800 mb-3">Guest Experiences</h2>
+          <p className="text-gray-500 max-w-2xl mx-auto">What our guests are saying about their Movenpick experience</p>
+        </div>
+        <div className="max-w-3xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
+            <div className="flex justify-center gap-1 text-amber-400 text-xl mb-4">
+              {[...Array(testimonials[activeIndex].rating)].map((_, i) => (
+                <span key={i}>★</span>
+              ))}
+            </div>
+            <p className="text-lg italic text-gray-700 mb-6">"{testimonials[activeIndex].review}"</p>
+            <div className="flex items-center justify-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                {testimonials[activeIndex].name.charAt(0)}
+              </div>
+              <div className="text-left">
+                <p className="font-semibold text-gray-800">{testimonials[activeIndex].name}</p>
+                <p className="text-sm text-gray-400">{testimonials[activeIndex].location}</p>
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-center gap-2 mt-6">
+            {testimonials.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveIndex(idx)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${idx === activeIndex ? 'w-8 bg-amber-500' : 'bg-gray-300'}`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function App() {
   const [selectedService, setSelectedService] = useState(null);
   const [showForm, setShowForm] = useState(false);
@@ -195,79 +277,197 @@ export default function App() {
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [activeCategory, setActiveCategory] = useState("all");
 
-  useEffect(() => {
-    const style = document.createElement('style');
-    style.textContent = animationsStyles;
-    document.head.appendChild(style);
-    
-    const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, observerOptions);
-    
-    document.querySelectorAll('.animate-on-scroll').forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(30px)';
-      el.style.transition = 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
-      observer.observe(el);
-    });
-    
-    return () => observer.disconnect();
-  }, []);
+  // Маппинг категорий для фильтрации
+  const categoryMap = {
+    'all': 'all',
+    'family': 'Family',
+    'wellness': 'Wellness',
+    'dining': 'Dining',
+    'adventure': 'Adventure',
+    'activities': 'Activities'
+  };
 
   const filteredServices = activeCategory === "all" 
     ? services 
-    : services.filter(service => service.category === activeCategory);
+    : services.filter(service => service.category === categoryMap[activeCategory]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-amber-50/30">
+    <div className="min-h-screen bg-white">
       <Header onAdminClick={() => setShowAdminPanel(true)} />
       
-      {/* Hero Section - улучшенная видимость текста */}
-      <section className="relative bg-gradient-to-r from-amber-900 to-amber-800 text-white py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-black/30"></div>
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 text-7xl animate-float">✦</div>
-          <div className="absolute bottom-10 right-10 text-7xl animate-float" style={{ animationDelay: '1s' }}>✦</div>
-          <div className="absolute top-1/2 left-1/4 text-6xl animate-pulse-slow">★</div>
+      {/* Премиум Hero секция */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&h=1080&fit=crop" 
+            alt="Luxury Hotel"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
         </div>
-        <div className="relative container mx-auto px-4 text-center z-10">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4 drop-shadow-lg text-white animate-fadeInUp">
-            Experiences That Define Luxury
-          </h1>
-          <p className="text-lg max-w-2xl mx-auto text-white/95 drop-shadow animate-fadeInUp delay-200">
-            From gourmet dining to relaxing spa treatments, discover the best of Movenpick
-          </p>
-          <div className="mt-8 flex justify-center gap-4 animate-fadeInUp delay-400">
-            <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 text-sm">🏆 Award Winning</div>
-            <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 text-sm">⭐ 5 Star Luxury</div>
-            <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 text-sm">✨ Swiss Hospitality</div>
+        <div className="relative container mx-auto px-4 z-10">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-2 text-amber-400 text-sm tracking-widest mb-4">
+              <span>✦</span>
+              <span>MÖVENPICK HOTELS & RESORTS</span>
+            </div>
+            <h1 className="text-5xl md:text-7xl font-serif font-bold text-white leading-tight mb-6">
+              Indulgence done right
+            </h1>
+            <p className="text-xl text-white/90 mb-8 max-w-xl">
+              Taste the good life at Movenpick Hotels & Resorts, where every moment is designed to be savoured.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <button className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-8 py-3 rounded-full font-semibold hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
+                Discover Experiences
+              </button>
+              <button className="border-2 border-white/50 text-white px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition-all backdrop-blur-sm">
+                View Offers
+              </button>
+            </div>
+            <div className="mt-12 flex gap-8 text-white/70 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-amber-400">✦</span>
+                <span>Swiss Hospitality</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-amber-400">✦</span>
+                <span>5-Star Luxury</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-amber-400">✦</span>
+                <span>Since 1948</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/50 animate-bounce">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
+      </section>
+
+      {/* Stays for all Tastes - Премиум категории */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-serif font-bold text-gray-800 mb-3">Stays for all Tastes</h2>
+            <p className="text-gray-500 max-w-2xl mx-auto">From family favourites to sweet retreats, find your perfect getaway</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+              <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop" alt="Family" className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+              <div className="absolute bottom-0 p-6 text-white">
+                <span className="text-3xl mb-2 block">👨‍👩‍👧</span>
+                <h3 className="text-xl font-bold">Family Favourites</h3>
+                <p className="text-sm opacity-90">Stays taste better together – our family holidays serve up a menu of delights to suit all tastebuds.</p>
+              </div>
+            </div>
+            <div className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+              <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&h=400&fit=crop" alt="Sweet Retreats" className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+              <div className="absolute bottom-0 p-6 text-white">
+                <span className="text-3xl mb-2 block">💆</span>
+                <h3 className="text-xl font-bold">Sweet Retreats</h3>
+                <p className="text-sm opacity-90">From luscious spas with velvety beds to cool pools designed for double dips, resort life is refreshing.</p>
+              </div>
+            </div>
+            <div className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+              <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop" alt="Gourmet" className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+              <div className="absolute bottom-0 p-6 text-white">
+                <span className="text-3xl mb-2 block">🍽️</span>
+                <h3 className="text-xl font-bold">Gourmet Getaways</h3>
+                <p className="text-sm opacity-90">Dining destinations in abundance, serving food and wine that's just divine in our hotel bars and restaurants.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Categories */}
-      <div className="container mx-auto px-4 py-8 animate-on-scroll">
+      {/* Offers Section */}
+      <section className="py-20 bg-gradient-to-r from-amber-50 to-orange-50/50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-serif font-bold text-gray-800 mb-3">Offers too good to resist</h2>
+            <p className="text-gray-500 max-w-2xl mx-auto">Exclusive experiences and amazing value for your stay</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {offers.map((offer) => (
+              <div key={offer.id} className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group">
+                <div className="relative h-48 overflow-hidden">
+                  <img src={offer.image} alt={offer.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <div className="absolute top-4 right-4 bg-amber-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                    {offer.discount}
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">{offer.title}</h3>
+                  <p className="text-gray-500 text-sm mb-4">{offer.description}</p>
+                  <button className="text-amber-600 font-semibold hover:text-amber-700 transition flex items-center gap-1 group">
+                    Explore offer 
+                    <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Brand Values Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-serif font-bold text-gray-800 mb-3">Life's natural pleasures celebrated</h2>
+            <p className="text-gray-500 max-w-2xl mx-auto">We savour life wholeheartedly, sprinkling goodness across all that we do.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {brandValues.map((value, idx) => (
+              <div key={idx} className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-500 hover:-translate-y-2 group">
+                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">{value.icon}</div>
+                <h3 className="text-lg font-bold text-gray-800 mb-2">{value.title}</h3>
+                <p className="text-gray-500 text-sm">{value.description}</p>
+                <button className="mt-4 text-amber-600 font-semibold hover:text-amber-700 transition text-sm flex items-center justify-center gap-1">
+                  View more <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Guest Experiences / Testimonials */}
+      <TestimonialsSection testimonials={testimonials} />
+
+      {/* Quote Section */}
+      <section className="py-16 bg-gradient-to-r from-amber-800 to-orange-800 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <blockquote className="max-w-3xl mx-auto">
+            <p className="text-2xl md:text-3xl font-serif italic mb-4">"We aren't doing anything extraordinary. We are successful because we simply do ordinary things in an extraordinary way."</p>
+            <footer className="text-amber-300 text-sm tracking-widest">— Ueli Prager, Founder</footer>
+          </blockquote>
+        </div>
+      </section>
+
+      {/* Categories - фильтр для услуг */}
+      <div className="container mx-auto px-4 py-8">
         <div className="flex flex-wrap justify-center gap-3">
-          {categories.map((cat, idx) => (
+          {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
               className={`px-5 py-2.5 rounded-full font-semibold transition-all duration-300 flex items-center gap-2 shadow-md hover:scale-105 ${
                 activeCategory === cat.id
-                  ? `${cat.color} text-white scale-105 shadow-lg ring-2 ring-white/50`
+                  ? "bg-gradient-to-r from-amber-600 to-orange-600 text-white scale-105 shadow-lg ring-2 ring-white/50"
                   : "bg-white text-gray-700 hover:bg-gray-50"
               }`}
-              style={{ transitionDelay: `${idx * 50}ms` }}
             >
-              <span className="text-lg">{cat.icon}</span>
+              <span>{cat.icon}</span>
               <span>{cat.name}</span>
-              {activeCategory === cat.id && <span className="text-sm animate-pulse-slow">✓</span>}
             </button>
           ))}
         </div>
@@ -275,23 +475,17 @@ export default function App() {
 
       {/* Services Grid */}
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-8 animate-on-scroll">
+        <div className="text-center mb-8">
           <p className="text-gray-500 text-sm bg-white/80 backdrop-blur-sm inline-block px-4 py-2 rounded-full shadow-sm">
-            ✨ {filteredServices.length} luxury experiences available ✨
+            ✨ {filteredServices.length} luxurious experiences available ✨
           </p>
         </div>
 
         {filteredServices.length === 0 ? (
-          <div className="text-center py-16" style={{ animation: 'fadeIn 0.3s ease-out' }}>
-            <div className="text-6xl mb-4 animate-bounce">🔍</div>
+          <div className="text-center py-16">
+            <div className="text-6xl mb-4">🔍</div>
             <h3 className="text-xl font-semibold text-gray-700 mb-2">No services found</h3>
             <p className="text-gray-500">Try selecting a different category</p>
-            <button
-              onClick={() => setActiveCategory("all")}
-              className="mt-4 text-amber-600 hover:text-amber-700 font-semibold transition-all hover:scale-105 inline-flex items-center gap-2"
-            >
-              Clear filters → 
-            </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -314,8 +508,22 @@ export default function App() {
         )}
       </div>
 
+      {/* Loyalty Program Section */}
+      <section className="py-16 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-5xl mb-4">✨</div>
+            <h2 className="text-3xl font-serif font-bold mb-4">Indulge yourself with ALL</h2>
+            <p className="text-gray-300 mb-6">Unexpected experiences, unique benefits and exclusive rewards. Open the doors of endless possibilities.</p>
+            <button className="border-2 border-white/50 text-white px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition-all backdrop-blur-sm">
+              Learn More →
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-gray-900 to-gray-800 text-gray-400 py-8 mt-8">
+      <footer className="bg-[#1a1a2e] text-gray-400 py-8">
         <div className="container mx-auto px-4 text-center">
           <div className="flex justify-center gap-8 mb-6">
             <div className="text-center group cursor-pointer">
@@ -335,8 +543,8 @@ export default function App() {
               <p className="text-xs uppercase tracking-wide">Premium</p>
             </div>
           </div>
-          <p>© 2024 Movenpick Hotel & Resort. All rights reserved.</p>
-          <p className="text-sm mt-2">Crafted with excellence for unforgettable moments</p>
+          <p className="text-sm">© 2024 Movenpick Hotel & Resort. All rights reserved.</p>
+          <p className="text-xs mt-2 text-gray-500">Crafted with excellence for unforgettable moments</p>
         </div>
       </footer>
 
