@@ -6,14 +6,17 @@ export const services = [
     title: "BBQ Dinner by the Sea",
     category: "Dining",
     shortDescription: "Premium BBQ dinner near the beach",
+    fullDescription: "Enjoy a luxurious BBQ dinner with fresh seafood, premium meats, and vegetarian options right on the beach.",
     price: "1,500",
     priceUnit: "THB",
     time: "18:00-22:00",
     location: "Beach area",
     icon: "🍖",
+    image: "5854615107b42f5f74f76034fca35a56.png",
     options: ["Seafood", "Meat", "Vegetarian"],
     popular: true,
-    rating: 4.9
+    rating: 4.9,
+    reviewsCount: 128
   },
   {
     id: 2,
@@ -21,14 +24,17 @@ export const services = [
     title: "SPA Relax",
     category: "Wellness",
     shortDescription: "Traditional Thai massage",
+    fullDescription: "Rejuvenate with authentic Thai massage and aromatherapy.",
     price: "1,200",
     priceUnit: "THB",
     time: "10:00-20:00",
     location: "SPA Center",
     icon: "💆",
+    image: "https://images.pexels.com/photos/3757657/pexels-photo-3757657.jpeg?w=600&h=400&fit=crop",
     options: ["Thai Massage", "Aromatherapy", "Foot Massage"],
     popular: true,
-    rating: 4.8
+    rating: 4.8,
+    reviewsCount: 95
   },
   {
     id: 3,
@@ -36,14 +42,17 @@ export const services = [
     title: "Sunset Cruise",
     category: "Adventure",
     shortDescription: "Romantic sunset boat tour",
+    fullDescription: "Experience a magical sunset cruise along the coast with dinner, drinks, and live music on board.",
     price: "2,500",
     priceUnit: "THB",
     time: "16:30-19:30",
     location: "Marina Pier",
     icon: "⛵",
-    options: ["Romantic Dinner", "Open Bar", "Live Music"],
+    image: "https://images.pexels.com/photos/2325446/pexels-photo-2325446.jpeg?w=600&h=400&fit=crop",
+    options: ["Romantic Dinner", "Open Bar", "Live Music", "Photo Service"],
     popular: true,
-    rating: 4.9
+    rating: 4.9,
+    reviewsCount: 87
   },
   {
     id: 4,
@@ -51,14 +60,17 @@ export const services = [
     title: "Morning Yoga by the Pool",
     category: "Wellness",
     shortDescription: "Sunrise yoga session",
+    fullDescription: "Start your day with an energizing yoga session overlooking the ocean. Suitable for all levels.",
     price: "500",
     priceUnit: "THB",
     time: "07:00-08:30",
     location: "Pool Deck",
     icon: "🧘",
-    options: ["Mat Provided", "Fresh Juice", "All Levels"],
+    image: "https://images.pexels.com/photos/8436605/pexels-photo-8436605.jpeg?w=600&h=400&fit=crop",
+    options: ["Mat Provided", "Fresh Juice", "Beginner Friendly", "Advanced Session"],
     popular: false,
-    rating: 4.7
+    rating: 4.7,
+    reviewsCount: 64
   },
   {
     id: 5,
@@ -66,14 +78,17 @@ export const services = [
     title: "Thai Cooking Class",
     category: "Activities",
     shortDescription: "Learn authentic Thai recipes",
+    fullDescription: "Discover the secrets of Thai cuisine with our professional chef. Cook and eat your own creations.",
     price: "2,000",
     priceUnit: "THB",
     time: "11:00-14:00",
     location: "Hotel Kitchen",
     icon: "👨‍🍳",
-    options: ["Pad Thai", "Green Curry", "Spring Rolls"],
+    image: "https://images.pexels.com/photos/1267325/pexels-photo-1267325.jpeg?w=600&h=400&fit=crop",
+    options: ["Pad Thai", "Green Curry", "Spring Rolls", "Mango Sticky Rice"],
     popular: true,
-    rating: 4.9
+    rating: 4.9,
+    reviewsCount: 112
   },
   {
     id: 6,
@@ -81,43 +96,16 @@ export const services = [
     title: "Kids Club Adventure",
     category: "Family",
     shortDescription: "Fun activities for children",
+    fullDescription: "Supervised fun activities for kids including crafts, games, and outdoor play while parents relax.",
     price: "800",
     priceUnit: "THB",
     time: "09:00-17:00",
     location: "Kids Club",
     icon: "🧸",
-    options: ["Arts & Crafts", "Treasure Hunt", "Face Painting"],
+    image: "https://images.pexels.com/photos/3661351/pexels-photo-3661351.jpeg?w=600&h=400&fit=crop",
+    options: ["Arts & Crafts", "Treasure Hunt", "Face Painting", "Lunch Included"],
     popular: false,
-    rating: 4.6
-  },
-  {
-    id: 7,
-    code: "WINE",
-    title: "Wine Tasting Evening",
-    category: "Dining",  // ← Добавляем еще одну Dining услугу
-    shortDescription: "Exclusive wine tasting with sommelier",
-    price: "2,000",
-    priceUnit: "THB",
-    time: "19:00-21:00",
-    location: "Wine Cellar",
-    icon: "🍷",
-    options: ["Red Wines", "White Wines", "Cheese Pairing"],
-    popular: false,
-    rating: 4.8
-  },
-  {
-    id: 8,
-    code: "CHEF",
-    title: "Chef's Table Experience",
-    category: "Dining",  // ← Еще одна Dining услуга
-    shortDescription: "Exclusive dining with the head chef",
-    price: "3,500",
-    priceUnit: "THB",
-    time: "19:00-22:00",
-    location: "Chef's Table",
-    icon: "👨‍🍳",
-    options: ["7 Course Menu", "Wine Pairing", "Kitchen Tour"],
-    popular: true,
-    rating: 4.9
+    rating: 4.6,
+    reviewsCount: 43
   }
 ];

@@ -8,13 +8,13 @@ import SuccessScreen from "./components/SuccessScreen";
 import ReviewsList from "./components/ReviewsList";
 import { services } from "./data/services";
 
-// Фоновые изображения - используем градиенты
+// Фоновые изображения для секций
 const backgroundImages = {
-  hero: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
-  experience: "linear-gradient(135deg, #2d1b69 0%, #11998e 100%)",
-  dining: "linear-gradient(135deg, #c31432 0%, #240b36 100%)",
-  rooms: "linear-gradient(135deg, #0f3443 0%, #34e89e 100%)",
-  wedding: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
+  hero: "url(https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1920&h=1080&fit=crop)",
+  experience: "url(https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&h=600&fit=crop)",
+  dining: "url(https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&h=600&fit=crop)",
+  rooms: "url(https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=1920&h=600&fit=crop)",
+  wedding: "url(https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&h=600&fit=crop)"
 };
 
 // Данные для премиум-блоков
@@ -23,19 +23,19 @@ const restaurants = [
     id: 1,
     name: "T55 New York Grill Room",
     description: "Premium dry-aged steaks and signature Tomahawk cuts, New York–inspired style and seaside sophistication.",
-    image: "linear-gradient(135deg, #f7971e 0%, #ffd200 100%)"
+    image: "linear-gradient(135deg, #c9a84c 0%, #f5e6b8 100%)"
   },
   {
     id: 2,
     name: "La Costa Poolside",
     description: "Casual poolside dining with light bites, pizzas, and refreshing drinks paired with sea breezes.",
-    image: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)"
+    image: "linear-gradient(135deg, #7ab7b0 0%, #b5d8d4 100%)"
   },
   {
     id: 3,
     name: "Red Coral Lounge",
     description: "Stylish lobby lounge with aromatic coffees, crafted cocktails, and chic evening ambiance.",
-    image: "linear-gradient(135deg, #ee0979 0%, #ff6a00 100%)"
+    image: "linear-gradient(135deg, #c0392b 0%, #e74c3c 100%)"
   }
 ];
 
@@ -44,19 +44,19 @@ const rooms = [
     id: 1,
     name: "Sea View Deluxe",
     description: "Private balcony with stunning ocean views, spacious bathtub for relaxing soaks.",
-    image: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+    image: "linear-gradient(135deg, #4a90d9 0%, #8bb9e8 100%)"
   },
   {
     id: 2,
     name: "Family Suite",
     description: "Connecting rooms for shared moments, perfect for family holidays by the sea.",
-    image: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
+    image: "linear-gradient(135deg, #e8a87c 0%, #f5d4b8 100%)"
   },
   {
     id: 3,
     name: "Panorama Club Room",
     description: "Exclusive access to Panorama Club Lounge with sweeping ocean views.",
-    image: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
+    image: "linear-gradient(135deg, #2c3e50 0%, #5d7a9a 100%)"
   }
 ];
 
@@ -75,7 +75,6 @@ export default function App() {
   const [successRequest, setSuccessRequest] = useState(null);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [activeCategory, setActiveCategory] = useState("all");
-  const [showAllReviewsModal, setShowAllReviewsModal] = useState(false);
   const [allReviews, setAllReviews] = useState([]);
 
   // Загрузка всех отзывов
@@ -116,31 +115,23 @@ export default function App() {
   const handleCloseSuccess = () => {
     setSuccessRequest(null);
     setSelectedService(null);
-    // Обновляем отзывы
     const reviews = JSON.parse(localStorage.getItem("hotel_reviews") || "[]");
     setAllReviews(reviews);
   };
 
-  // Подсчет среднего рейтинга
-  const getAverageRating = () => {
-    if (allReviews.length === 0) return 0;
-    const sum = allReviews.reduce((acc, review) => acc + review.rating, 0);
-    return (sum / allReviews.length).toFixed(1);
-  };
-
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#f8f6f2]">
       <Header 
         onAdminClick={() => setShowAdminPanel(true)} 
         onCategoryClick={handleCategoryClick}
       />
       
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden" style={{ background: backgroundImages.hero }}>
-        <div className="absolute inset-0 bg-black/20"></div>
+      {/* Hero Section - с фоновым изображением */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-cover bg-center" style={{ backgroundImage: backgroundImages.hero }}>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent"></div>
         <div className="relative container mx-auto px-4 z-10">
           <div className="max-w-3xl">
-            <div className="flex items-center gap-2 text-amber-400 text-sm tracking-widest mb-4">
+            <div className="flex items-center gap-2 text-amber-300 text-sm tracking-widest mb-4">
               <span>✦</span>
               <span>MÖVENPICK SIAM HOTEL</span>
               <span>✦</span>
@@ -156,7 +147,7 @@ export default function App() {
                 onClick={() => {
                   document.getElementById('services-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
-                className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-8 py-3 rounded-full font-semibold hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="bg-gradient-to-r from-amber-500 to-amber-700 text-white px-8 py-3 rounded-full font-semibold hover:from-amber-600 hover:to-amber-800 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
               >
                 Explore Experiences
               </button>
@@ -192,12 +183,12 @@ export default function App() {
         </div>
       </section>
 
-      {/* Experience Section */}
-      <section className="relative py-20 overflow-hidden" style={{ background: backgroundImages.experience }}>
-        <div className="absolute inset-0 bg-black/20"></div>
+      {/* Experience Section - с фоновым изображением */}
+      <section className="relative py-20 overflow-hidden bg-cover bg-center bg-fixed" style={{ backgroundImage: backgroundImages.experience }}>
+        <div className="absolute inset-0 bg-black/40"></div>
         <div className="relative container mx-auto px-4 z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-2xl">
+            <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-xl border border-amber-100/30">
               <span className="text-amber-600 font-semibold tracking-widest text-sm">EXPERIENCE</span>
               <h2 className="text-4xl md:text-5xl font-serif font-bold mt-2 mb-4 text-gray-800">
                 Your Family Escape by the Sea
@@ -225,9 +216,9 @@ export default function App() {
         </div>
       </section>
 
-      {/* Restaurants & Bars */}
-      <section className="relative py-20 overflow-hidden" style={{ background: backgroundImages.dining }}>
-        <div className="absolute inset-0 bg-black/20"></div>
+      {/* Restaurants & Bars - с фоновым изображением */}
+      <section className="relative py-20 overflow-hidden bg-cover bg-center" style={{ backgroundImage: backgroundImages.dining }}>
+        <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative container mx-auto px-4 z-10">
           <div className="text-center mb-12">
             <span className="text-amber-400 font-semibold tracking-widest text-sm">DINING</span>
@@ -257,9 +248,9 @@ export default function App() {
         </div>
       </section>
 
-      {/* Rooms & Suites */}
-      <section className="relative py-20 overflow-hidden" style={{ background: backgroundImages.rooms }}>
-        <div className="absolute inset-0 bg-black/20"></div>
+      {/* Rooms & Suites - с фоновым изображением */}
+      <section className="relative py-20 overflow-hidden bg-cover bg-center" style={{ backgroundImage: backgroundImages.rooms }}>
+        <div className="absolute inset-0 bg-black/40"></div>
         <div className="relative container mx-auto px-4 z-10">
           <div className="text-center mb-12">
             <span className="text-amber-400 font-semibold tracking-widest text-sm">ACCOMMODATION</span>
@@ -278,7 +269,7 @@ export default function App() {
                 <div className="absolute bottom-0 p-6 text-white">
                   <h3 className="text-2xl font-bold">{room.name}</h3>
                   <p className="text-sm opacity-90 mt-1">{room.description}</p>
-                  <button className="mt-3 px-6 py-2 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full text-sm font-semibold hover:from-amber-600 hover:to-orange-600 transition shadow-lg">
+                  <button className="mt-3 px-6 py-2 bg-gradient-to-r from-amber-500 to-amber-700 rounded-full text-sm font-semibold hover:from-amber-600 hover:to-amber-800 transition shadow-lg">
                     View Details
                   </button>
                 </div>
@@ -288,30 +279,30 @@ export default function App() {
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-20 bg-gradient-to-r from-amber-50 to-orange-50/50">
+      {/* Why Choose Us - без фона */}
+      <section className="py-20 bg-[#f5f0e8]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-800">Why Choose Movenpick</h2>
             <p className="text-gray-500 max-w-2xl mx-auto mt-2">Life tastes better at Movenpick Pattaya</p>
           </div>
           <div className="grid md:grid-cols-4 gap-8">
-            <div className="text-center bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+            <div className="text-center bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-amber-100/30">
               <div className="text-5xl mb-4">🌅</div>
               <h3 className="font-bold text-lg text-gray-800">Panoramic Views</h3>
               <p className="text-gray-500 text-sm mt-2">Every room offers stunning sea views from private balconies</p>
             </div>
-            <div className="text-center bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+            <div className="text-center bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-amber-100/30">
               <div className="text-5xl mb-4">🏖️</div>
               <h3 className="font-bold text-lg text-gray-800">Pristine Beachfront</h3>
               <p className="text-gray-500 text-sm mt-2">Step directly onto the quiet sands of Na Jomtien Beach</p>
             </div>
-            <div className="text-center bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+            <div className="text-center bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-amber-100/30">
               <div className="text-5xl mb-4">🍫</div>
               <h3 className="font-bold text-lg text-gray-800">Free Chocolate Hour</h3>
               <p className="text-gray-500 text-sm mt-2">60 minutes of daily bliss — joy served daily</p>
             </div>
-            <div className="text-center bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+            <div className="text-center bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-amber-100/30">
               <div className="text-5xl mb-4">👨‍👩‍👧</div>
               <h3 className="font-bold text-lg text-gray-800">Family First</h3>
               <p className="text-gray-500 text-sm mt-2">Activities for all ages with our Little Bird Kid's Club</p>
@@ -328,7 +319,7 @@ export default function App() {
             <h2 className="text-4xl md:text-5xl font-serif font-bold mt-2 text-gray-800">Double the Joy</h2>
             <p className="text-gray-500 max-w-2xl mx-auto mt-2">Save up to 25% on your next coastal escape</p>
           </div>
-          <div className="max-w-4xl mx-auto bg-gradient-to-r from-amber-600 to-orange-600 text-white rounded-2xl p-8 md:p-12 shadow-2xl">
+          <div className="max-w-4xl mx-auto bg-gradient-to-r from-amber-600 to-amber-800 text-white rounded-2xl p-8 md:p-12 shadow-2xl">
             <div className="flex flex-col md:flex-row justify-between items-center gap-6">
               <div>
                 <span className="text-6xl font-bold">25% OFF</span>
@@ -339,7 +330,7 @@ export default function App() {
                   <span className="bg-white/20 px-3 py-1 rounded-full">🍫 Chocolate Hour</span>
                 </div>
               </div>
-              <button className="px-8 py-3 bg-white text-amber-600 rounded-full font-semibold hover:bg-gray-100 transition shadow-lg transform hover:scale-105">
+              <button className="px-8 py-3 bg-white text-amber-700 rounded-full font-semibold hover:bg-gray-100 transition shadow-lg transform hover:scale-105">
                 Book Now →
               </button>
             </div>
@@ -347,12 +338,12 @@ export default function App() {
         </div>
       </section>
 
-      {/* Wedding Section */}
-      <section className="relative py-20 overflow-hidden" style={{ background: backgroundImages.wedding }}>
-        <div className="absolute inset-0 bg-black/20"></div>
+      {/* Wedding Section - с фоновым изображением */}
+      <section className="relative py-20 overflow-hidden bg-cover bg-center" style={{ backgroundImage: backgroundImages.wedding }}>
+        <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative container mx-auto px-4 z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-2xl">
+            <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-xl border border-rose-100/30">
               <span className="text-amber-600 font-semibold tracking-widest text-sm">WEDDING</span>
               <h2 className="text-4xl md:text-5xl font-serif font-bold mt-2 mb-4 text-gray-800">
                 The Perfect Backdrop for Your "I Do"
@@ -375,7 +366,7 @@ export default function App() {
                   <span>Professional Wedding Planner included</span>
                 </div>
               </div>
-              <button className="mt-8 px-8 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white rounded-full font-semibold hover:from-amber-700 hover:to-orange-700 transition shadow-lg">
+              <button className="mt-8 px-8 py-3 bg-gradient-to-r from-amber-600 to-amber-800 text-white rounded-full font-semibold hover:from-amber-700 hover:to-amber-900 transition shadow-lg">
                 Plan Your Wedding →
               </button>
             </div>
@@ -392,8 +383,8 @@ export default function App() {
               onClick={() => handleCategoryClick(cat.id)}
               className={`px-5 py-2.5 rounded-full font-semibold transition-all duration-300 flex items-center gap-2 shadow-md ${
                 activeCategory === cat.id
-                  ? "bg-gradient-to-r from-amber-600 to-orange-600 text-white scale-105 shadow-lg"
-                  : "bg-white text-gray-700 hover:bg-gray-50"
+                  ? "bg-gradient-to-r from-amber-600 to-amber-800 text-white scale-105 shadow-lg"
+                  : "bg-white text-gray-700 hover:bg-gray-50 border border-amber-100/30"
               }`}
             >
               <span>{cat.icon}</span>
@@ -407,7 +398,7 @@ export default function App() {
       {/* Services Grid */}
       <div id="services-section" className="container mx-auto px-4 py-8 scroll-mt-20">
         <div className="text-center mb-8">
-          <p className="text-gray-500 text-sm bg-white/80 inline-block px-4 py-2 rounded-full shadow-sm">
+          <p className="text-gray-500 text-sm bg-white/80 inline-block px-4 py-2 rounded-full shadow-sm border border-amber-100/30">
             ✨ {filteredServices.length} luxury experiences available ✨
           </p>
         </div>
@@ -421,7 +412,7 @@ export default function App() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredServices.map((service) => (
-              <div key={service.id} className="bg-white rounded-2xl shadow-lg overflow-hidden">
+              <div key={service.id} className="bg-white rounded-2xl shadow-lg overflow-hidden border border-amber-100/30">
                 <ServiceCard
                   service={service}
                   onBookNow={handleBookNow}
@@ -436,7 +427,7 @@ export default function App() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-[#1a1a2e] text-white/80 py-12 mt-8">
+      <footer className="bg-[#1a2a3a] text-white/80 py-12 mt-8">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>

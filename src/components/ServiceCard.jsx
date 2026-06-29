@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export default function ServiceCard({ service, onBookNow }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [imageError, setImageError] = useState(false);
   
   const categoryColors = {
     Dining: "from-amber-600 to-amber-800",
@@ -13,6 +14,9 @@ export default function ServiceCard({ service, onBookNow }) {
   };
   
   const bgColor = categoryColors[service.category] || "from-amber-600 to-amber-800";
+
+  // Если нет изображения или ошибка - показываем градиент
+  const showGradient = !service.image || imageError;
 
   return (
     <div 
@@ -29,36 +33,36 @@ export default function ServiceCard({ service, onBookNow }) {
         </div>
       )}
 
-      {/* Image/Icon Container - Movenpick Style */}
-      <div className={`relative h-56 overflow-hidden bg-gradient-to-br ${bgColor}`}>
-        <div className="absolute inset-0 bg-black/10 group-hover:bg-black/5 transition-all duration-500"></div>
-        
-        {/* Decorative Swiss cross pattern */}
-        <div className="absolute top-4 right-4 opacity-10">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
-            <path d="M12 2L15 8H21L16 12L18 18L12 14L6 18L8 12L3 8H9L12 2Z" />
-          </svg>
-        </div>
-        
-        {/* Main Icon */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className={`text-8xl transition-all duration-500 ${isHovered ? 'scale-110 rotate-3' : 'scale-100'}`}>
-            {service.icon}
-          </span>
-        </div>
+      {/* Image Container */}
+      <div className={`relative h-56 overflow-hidden ${showGradient ? `bg-gradient-to-br ${bgColor}` : 'bg-gray-200'}`}>
+        {!showGradient ? (
+          <img 
+            src={service.image} 
+            alt={service.title}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+            onError={() => setImageError(true)}
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <span className="text-7xl group-hover:scale-110 transition-transform duration-500">
+              {service.icon}
+            </span>
+          </div>
+        )}
         
         {/* Overlay gradient */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/50 to-transparent"></div>
         
         {/* Code Badge */}
-        <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md rounded-full px-3 py-1">
+        <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1">
           <span className="text-white text-[10px] font-mono font-bold tracking-wider">{service.code}</span>
         </div>
         
         {/* Category Badge */}
-        <div className="absolute bottom-4 left-4 bg-white/20 backdrop-blur-md rounded-full px-3 py-1">
+        <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1">
           <span className="text-white text-[10px] font-semibold flex items-center gap-1 uppercase tracking-wide">
-            <span>{service.iconSmall || service.icon}</span>
+            <span>{service.icon}</span>
             <span>{service.category}</span>
           </span>
         </div>
@@ -66,7 +70,6 @@ export default function ServiceCard({ service, onBookNow }) {
 
       {/* Content */}
       <div className="p-5">
-        {/* Title & Rating */}
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-serif font-bold text-gray-800 group-hover:text-amber-700 transition-colors">
             {service.title}
@@ -78,12 +81,10 @@ export default function ServiceCard({ service, onBookNow }) {
           </div>
         </div>
 
-        {/* Description */}
         <p className="text-gray-500 text-xs leading-relaxed mb-3 line-clamp-2">
           {service.shortDescription}
         </p>
 
-        {/* Price & Time */}
         <div className="flex justify-between items-center mb-3 pb-3 border-b border-gray-100">
           <div className="flex items-baseline gap-1">
             <span className="text-2xl font-bold text-amber-700">฿{service.price}</span>
@@ -95,13 +96,11 @@ export default function ServiceCard({ service, onBookNow }) {
           </div>
         </div>
 
-        {/* Location */}
         <div className="flex items-center gap-1 text-gray-400 text-xs mb-3">
           <span>📍</span>
           <span>{service.location}</span>
         </div>
 
-        {/* Options */}
         <div className="flex flex-wrap gap-1.5 mb-4">
           {service.options.slice(0, 3).map((option, idx) => (
             <span key={idx} className="text-[9px] bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
@@ -115,7 +114,6 @@ export default function ServiceCard({ service, onBookNow }) {
           )}
         </div>
 
-        {/* Book Button - Movenpick Style */}
         <button
           onClick={() => onBookNow(service)}
           className="relative w-full overflow-hidden group/btn bg-gradient-to-r from-amber-600 to-amber-800 text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 hover:shadow-lg"
@@ -126,16 +124,7 @@ export default function ServiceCard({ service, onBookNow }) {
           </span>
           <div className="absolute inset-0 bg-gradient-to-r from-amber-700 to-amber-900 transform translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></div>
         </button>
-
-        {/* Swiss touch - small detail */}
-        <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <span className="text-[8px] text-gray-300">✦ Swiss Hospitality ✦</span>
-        </div>
       </div>
     </div>
   );
-// В начале компонента добавьте className с анимацией
-<div 
-  className="service-card-animate opacity-0 translate-y-10 transition-all duration-700 ease-out"
-  // остальные классы...
-></div>}
+}
