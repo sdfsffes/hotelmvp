@@ -14,31 +14,6 @@ export default function Header({ onAdminClick, onCategoryClick }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Прикольные фразы для случайного отображения
-  const funPhrases = [
-    "Life is too short for boring stays ✨",
-    "Eat, sleep, swim, repeat 🌊",
-    "Where every moment tastes good 🍫",
-    "Happiness is a beachfront room 🌅",
-    "Savour the good life 🍷",
-    "Paradise found 🏝️",
-    "Sun, sea, and Swiss hospitality ☀️",
-    "Making memories by the sea 🌊",
-    "Live the sweet life 🍫",
-    "Your slice of paradise 🏖️"
-  ];
-
-  const [currentPhrase, setCurrentPhrase] = useState(funPhrases[0]);
-
-  useEffect(() => {
-    // Меняем фразу каждые 5 секунд
-    const interval = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * funPhrases.length);
-      setCurrentPhrase(funPhrases[randomIndex]);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
   const navLinks = [
     { id: "home", name: "Home", icon: "✦" },
     { id: "experiences", name: "Experiences", icon: "✨" }
@@ -60,16 +35,21 @@ export default function Header({ onAdminClick, onCategoryClick }) {
 
   return (
     <>
-      {/* Top Bar - Прикольная надпись */}
+      {/* Top Bar */}
       <div className="hidden lg:block bg-[#1a1a2e] text-white/80 py-2">
         <div className="container mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
-              <span className="text-amber-400 text-lg">✦</span>
-              <span className="text-[13px] tracking-wide font-medium text-white/90">
-                {currentPhrase}
-              </span>
-              <span className="text-amber-400 text-lg">✦</span>
+              <span className="text-amber-400">✦</span>
+              <span className="text-[11px] tracking-wide">SWISS HOSPITALITY</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-amber-400">✦</span>
+              <span className="text-[11px] tracking-wide">SINCE 1948</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-amber-400">✦</span>
+              <span className="text-[11px] tracking-wide">WORLD TRAVEL AWARDS</span>
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -79,7 +59,7 @@ export default function Header({ onAdminClick, onCategoryClick }) {
             </div>
             <div className="flex items-center gap-1 text-[11px]">
               <span>⭐</span>
-              <span>4.8 ★ Guest Rating</span>
+              <span>Luxury Hotel Award</span>
             </div>
           </div>
         </div>
@@ -219,34 +199,4 @@ export default function Header({ onAdminClick, onCategoryClick }) {
       </header>
     </>
   );
-// src/components/Header.jsx - добавьте переключатель языка
-import { useState, useEffect } from "react";
-import { useLanguage } from "../context/LanguageContext";
-
-export default function Header({ onAdminClick, onCategoryClick }) {
-  const { translate, language, changeLanguage } = useLanguage();
-  // ... остальной код
-
-  // Добавьте в правую часть header:
-  <div className="hidden lg:flex items-center gap-3">
-    {/* Переключатель языка */}
-    <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1">
-      {['en', 'th', 'ru'].map((lang) => (
-        <button
-          key={lang}
-          onClick={() => changeLanguage(lang)}
-          className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-300 ${
-            language === lang
-              ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-200'
-          }`}
-        >
-          {lang === 'en' && '🇬🇧 EN'}
-          {lang === 'th' && '🇹🇭 TH'}
-          {lang === 'ru' && '🇷🇺 RU'}
-        </button>
-      ))}
-    </div>
-    {/* ... остальные кнопки */}
-  </div>
-}}
+}

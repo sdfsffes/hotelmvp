@@ -85,44 +85,52 @@ export default function RequestForm({ service, onClose, onSuccess }) {
   if (step === 2) {
     return (
       <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fadeIn">
-        <div className="bg-white rounded-3xl max-w-md w-full p-8 text-center shadow-2xl animate-scaleUp">
+        <div className="bg-white rounded-3xl max-w-md w-full p-8 text-center shadow-2xl animate-scaleUp border border-amber-100/30">
+          {/* Анимированная иконка */}
           <div className="relative">
-            <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
-              <div className="w-24 h-24 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-2xl animate-bounce">
+            <div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
+              <div className="w-28 h-28 bg-gradient-to-br from-amber-400 via-orange-400 to-amber-600 rounded-full flex items-center justify-center shadow-2xl animate-bounce ring-4 ring-amber-200/50">
                 <span className="text-5xl">🎫</span>
               </div>
             </div>
           </div>
           
-          <div className="mt-8">
-            <h2 className="text-2xl font-serif font-bold text-gray-800 mb-2">Your Reservation Code</h2>
+          <div className="mt-12">
+            <h2 className="text-3xl font-serif font-bold text-gray-800 mb-2">
+              ✨ Your Reservation Code
+            </h2>
             <p className="text-gray-500 text-sm mb-6">Please save this code for your records</p>
             
-            <div className="bg-gradient-to-r from-amber-50 to-orange-50 p-6 rounded-2xl border-2 border-amber-200/50 shadow-inner">
+            {/* Код бронирования */}
+            <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 p-6 rounded-2xl border-2 border-amber-200/50 shadow-inner relative overflow-hidden">
+              <div className="absolute top-0 right-0 opacity-10 text-6xl">✦</div>
               <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Booking Reference</p>
               <p className="text-3xl font-bold text-amber-600 font-mono tracking-wider">{generatedCode}</p>
               <div className="mt-3 flex items-center justify-center gap-4 text-sm text-gray-600">
-                <span className="flex items-center gap-1">📅 {new Date(formData.date).toLocaleDateString()}</span>
-                <span className="flex items-center gap-1">🚪 {formData.roomNumber}</span>
+                <span className="flex items-center gap-1 bg-white/50 px-3 py-1 rounded-full">📅 {new Date(formData.date).toLocaleDateString()}</span>
+                <span className="flex items-center gap-1 bg-white/50 px-3 py-1 rounded-full">🚪 {formData.roomNumber}</span>
               </div>
             </div>
 
+            {/* Кнопки */}
             <div className="mt-6 flex flex-col gap-3">
               <button
                 onClick={handleConfirm}
-                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition-all transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-2"
+                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3.5 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-2 group"
               >
-                <span>✅</span>
+                <span className="text-xl group-hover:rotate-12 transition-transform">✅</span>
                 <span>Confirm Reservation</span>
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
               </button>
               <button
                 onClick={() => {
                   setStep(1);
                   setGeneratedCode("");
                 }}
-                className="w-full bg-gray-100 text-gray-600 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-all"
+                className="w-full bg-gray-100 text-gray-600 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-2"
               >
-                ← Back to Form
+                <span>←</span>
+                <span>Back to Form</span>
               </button>
             </div>
           </div>
@@ -133,19 +141,19 @@ export default function RequestForm({ service, onClose, onSuccess }) {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4 overflow-y-auto animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-slideUp">
-        {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-amber-50 to-orange-50 px-6 py-5 flex justify-between items-center border-b border-amber-100 rounded-t-3xl">
+      <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-amber-100/30 animate-slideUp">
+        {/* Header - Premium */}
+        <div className="sticky top-0 bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100 px-6 py-5 flex justify-between items-center border-b border-amber-200/50 rounded-t-3xl">
           <div>
-            <h2 className="text-xl font-serif font-bold text-gray-800">Complete Your Booking</h2>
-            <p className="text-sm text-gray-500 flex items-center gap-1">
-              <span>{service.icon}</span>
-              <span>{service.title}</span>
+            <h2 className="text-2xl font-serif font-bold text-gray-800">✨ Complete Your Booking</h2>
+            <p className="text-sm text-gray-500 flex items-center gap-2 mt-1">
+              <span className="text-2xl">{service.icon}</span>
+              <span className="font-medium">{service.title}</span>
             </p>
           </div>
           <button 
             onClick={onClose} 
-            className="w-8 h-8 bg-white/80 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-white transition-all shadow-sm"
+            className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-md"
           >
             ✕
           </button>
@@ -154,89 +162,89 @@ export default function RequestForm({ service, onClose, onSuccess }) {
         {/* Form */}
         <form onSubmit={handleGenerateCode} className="p-6 space-y-4">
           {/* Service Card */}
-          <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-2xl p-4 flex items-center gap-4 border border-amber-200/30">
-            <div className="w-14 h-14 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl flex items-center justify-center text-3xl shadow-lg">
+          <div className="bg-gradient-to-br from-amber-50/80 via-orange-50/80 to-amber-100/80 rounded-2xl p-4 flex items-center gap-4 border border-amber-200/30 shadow-sm">
+            <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg flex-shrink-0">
               {service.icon}
             </div>
-            <div>
-              <p className="font-semibold text-gray-800">{service.title}</p>
-              <div className="flex items-center gap-3 text-sm text-gray-500">
+            <div className="flex-1">
+              <p className="font-semibold text-gray-800 text-lg">{service.title}</p>
+              <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500">
                 <span className="flex items-center gap-1">🕒 {service.time}</span>
                 <span className="flex items-center gap-1">📍 {service.location}</span>
               </div>
-              <p className="text-lg font-bold text-amber-600">฿{service.price} {service.priceUnit}</p>
+              <p className="text-xl font-bold text-amber-600 mt-1">฿{service.price} {service.priceUnit}</p>
             </div>
           </div>
 
-          {/* Name */}
+          {/* Full Name */}
           <div className="group">
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-              Full Name <span className="text-red-500">*</span>
+              👤 Full Name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all bg-gray-50/50 focus:bg-white ${
-                errors.name ? 'border-red-500 bg-red-50/50' : 'border-gray-200'
+              className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300 bg-gray-50/50 focus:bg-white ${
+                errors.name ? 'border-red-500 bg-red-50/50' : 'border-gray-200 hover:border-amber-300'
               }`}
               value={formData.name}
               onChange={(e) => setFormData({...formData, name: e.target.value})}
               placeholder="John Doe"
               required
             />
-            {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+            {errors.name && <p className="text-red-500 text-xs mt-1 animate-shake">{errors.name}</p>}
           </div>
 
           {/* Email */}
           <div className="group">
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-              Email <span className="text-red-500">*</span>
+              ✉️ Email <span className="text-red-500">*</span>
             </label>
             <input
               type="email"
-              className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all bg-gray-50/50 focus:bg-white ${
-                errors.email ? 'border-red-500 bg-red-50/50' : 'border-gray-200'
+              className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300 bg-gray-50/50 focus:bg-white ${
+                errors.email ? 'border-red-500 bg-red-50/50' : 'border-gray-200 hover:border-amber-300'
               }`}
               value={formData.email}
               onChange={(e) => setFormData({...formData, email: e.target.value})}
               placeholder="john@example.com"
               required
             />
-            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+            {errors.email && <p className="text-red-500 text-xs mt-1 animate-shake">{errors.email}</p>}
           </div>
 
           {/* Phone & Room */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                Phone <span className="text-red-500">*</span>
+                📞 Phone <span className="text-red-500">*</span>
               </label>
               <input
                 type="tel"
-                className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all bg-gray-50/50 focus:bg-white ${
-                  errors.phone ? 'border-red-500 bg-red-50/50' : 'border-gray-200'
+                className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300 bg-gray-50/50 focus:bg-white ${
+                  errors.phone ? 'border-red-500 bg-red-50/50' : 'border-gray-200 hover:border-amber-300'
                 }`}
                 value={formData.phone}
                 onChange={(e) => setFormData({...formData, phone: e.target.value})}
                 placeholder="+66 123 456 789"
                 required
               />
-              {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+              {errors.phone && <p className="text-red-500 text-xs mt-1 animate-shake">{errors.phone}</p>}
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                Room <span className="text-red-500">*</span>
+                🚪 Room <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
-                className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all bg-gray-50/50 focus:bg-white ${
-                  errors.roomNumber ? 'border-red-500 bg-red-50/50' : 'border-gray-200'
+                className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300 bg-gray-50/50 focus:bg-white ${
+                  errors.roomNumber ? 'border-red-500 bg-red-50/50' : 'border-gray-200 hover:border-amber-300'
                 }`}
                 value={formData.roomNumber}
                 onChange={(e) => setFormData({...formData, roomNumber: e.target.value})}
                 placeholder="e.g., 1205"
                 required
               />
-              {errors.roomNumber && <p className="text-red-500 text-xs mt-1">{errors.roomNumber}</p>}
+              {errors.roomNumber && <p className="text-red-500 text-xs mt-1 animate-shake">{errors.roomNumber}</p>}
             </div>
           </div>
 
@@ -244,25 +252,25 @@ export default function RequestForm({ service, onClose, onSuccess }) {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                Date <span className="text-red-500">*</span>
+                📅 Date <span className="text-red-500">*</span>
               </label>
               <input
                 type="date"
-                className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all bg-gray-50/50 focus:bg-white ${
-                  errors.date ? 'border-red-500 bg-red-50/50' : 'border-gray-200'
+                className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300 bg-gray-50/50 focus:bg-white ${
+                  errors.date ? 'border-red-500 bg-red-50/50' : 'border-gray-200 hover:border-amber-300'
                 }`}
                 value={formData.date}
                 onChange={(e) => setFormData({...formData, date: e.target.value})}
                 required
               />
-              {errors.date && <p className="text-red-500 text-xs mt-1">{errors.date}</p>}
+              {errors.date && <p className="text-red-500 text-xs mt-1 animate-shake">{errors.date}</p>}
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                Guests
+                👥 Guests
               </label>
               <select
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all bg-gray-50/50 focus:bg-white"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300 bg-gray-50/50 focus:bg-white hover:border-amber-300"
                 value={formData.guests}
                 onChange={(e) => setFormData({...formData, guests: e.target.value})}
               >
@@ -276,11 +284,11 @@ export default function RequestForm({ service, onClose, onSuccess }) {
           {/* Special Requests */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-              Special Requests
+              💬 Special Requests
             </label>
             <textarea
               rows="3"
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl resize-none focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all bg-gray-50/50 focus:bg-white"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl resize-none focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300 bg-gray-50/50 focus:bg-white hover:border-amber-300"
               value={formData.message}
               onChange={(e) => setFormData({...formData, message: e.target.value})}
               placeholder="Dietary restrictions, allergies, special occasions..."
@@ -291,7 +299,7 @@ export default function RequestForm({ service, onClose, onSuccess }) {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white py-3.5 rounded-xl font-semibold hover:from-amber-600 hover:to-orange-600 transition-all duration-300 transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white py-4 rounded-xl font-semibold hover:from-amber-600 hover:via-orange-600 hover:to-amber-700 transition-all duration-300 transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group"
           >
             {isSubmitting ? (
               <>
@@ -303,15 +311,15 @@ export default function RequestForm({ service, onClose, onSuccess }) {
               </>
             ) : (
               <>
-                <span>✨</span>
+                <span className="text-xl group-hover:rotate-12 transition-transform">✨</span>
                 <span>Generate Reservation Code</span>
-                <span>→</span>
+                <span className="group-hover:translate-x-2 transition-transform">→</span>
               </>
             )}
           </button>
 
           <p className="text-xs text-center text-gray-400">
-            By continuing, you agree to our Terms of Service and Privacy Policy
+            🔐 By continuing, you agree to our Terms of Service and Privacy Policy
           </p>
         </form>
       </div>

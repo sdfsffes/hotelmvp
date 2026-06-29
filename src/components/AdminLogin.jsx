@@ -8,10 +8,16 @@ export default function AdminLogin({ onSuccess, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Проверка длины пароля
+    if (password.length !== 4) {
+      setError("❌ Password must be exactly 4 characters");
+      return;
+    }
+
     setIsLoading(true);
     setError("");
 
-    // Проверка пароля
     setTimeout(() => {
       if (password === "9999") {
         onSuccess();
@@ -23,38 +29,53 @@ export default function AdminLogin({ onSuccess, onClose }) {
     }, 500);
   };
 
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    // Разрешаем ввод только цифр и ограничиваем 4 символами
+    if (value.length <= 4 && /^\d*$/.test(value)) {
+      setPassword(value);
+      setError("");
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fadeIn">
       <div className="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl animate-scaleUp">
-        {/* Header */}
         <div className="text-center">
           <div className="w-20 h-20 bg-gradient-to-r from-amber-500 to-amber-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
             <span className="text-4xl">🛡️</span>
           </div>
           <h2 className="text-2xl font-serif font-bold text-gray-800">Admin Access</h2>
-          <p className="text-gray-500 text-sm mt-1">Enter your password to continue</p>
+          <p className="text-gray-500 text-sm mt-1">Enter your 4-digit password to continue</p>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-              Password
+              Password (4 digits)
             </label>
             <div className="relative">
               <input
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter admin password"
-                className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all bg-gray-50/50 focus:bg-white ${
+                onChange={handlePasswordChange}
+                placeholder="Enter 4-digit password"
+                maxLength="4"
+                className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all bg-gray-50/50 focus:bg-white text-center text-2xl tracking-[8px] font-mono ${
                   error ? 'border-red-500 bg-red-50/50' : 'border-gray-200'
                 }`}
                 autoFocus
               />
-              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl">
-                🔒
-              </span>
+              <div className="flex justify-center gap-2 mt-2">
+                {[1, 2, 3, 4].map((i) => (
+                  <div
+                    key={i}
+                    className={`w-3 h-3 rounded-full transition-all ${
+                      password.length >= i ? 'bg-amber-500' : 'bg-gray-300'
+                    }`}
+                  ></div>
+                ))}
+              </div>
             </div>
             {error && (
               <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
@@ -62,12 +83,15 @@ export default function AdminLogin({ onSuccess, onClose }) {
                 <span>{error}</span>
               </p>
             )}
+            <p className="text-xs text-gray-400 mt-1">
+              {password.length}/4 characters
+            </p>
           </div>
 
           <div className="flex gap-3">
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || password.length !== 4}
               className="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white py-3 rounded-xl font-semibold hover:from-amber-600 hover:to-orange-600 transition-all transform hover:scale-[1.02] shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isLoading ? (
@@ -99,7 +123,6 @@ export default function AdminLogin({ onSuccess, onClose }) {
           </p>
         </form>
 
-        {/* Decorative elements */}
         <div className="absolute top-4 right-4 opacity-10 text-6xl">✦</div>
         <div className="absolute bottom-4 left-4 opacity-10 text-6xl">✦</div>
       </div>
