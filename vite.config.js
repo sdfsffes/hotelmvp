@@ -14,5 +14,10 @@ export default defineConfig({
   },
   css: {
     minify: false
+  },
+  server: {
+    hmr: {
+      overlay: false
+    }
   }
 })
