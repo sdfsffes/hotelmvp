@@ -86,14 +86,18 @@ export default function App() {
     const reviews = JSON.parse(localStorage.getItem("hotel_reviews") || "[]");
     setAllReviews(reviews);
 
-    if (window.location.pathname === '/admin' || window.location.pathname === '/admin/') {
+    // Проверка URL на /admin - работает и на локальном и на Vercel
+    const path = window.location.pathname;
+    if (path === '/admin' || path === '/admin/' || path.startsWith('/admin')) {
       setShowAdminPanel(true);
     }
   }, []);
 
+  // Слушаем изменения URL для /admin
   useEffect(() => {
     const handlePopState = () => {
-      if (window.location.pathname === '/admin' || window.location.pathname === '/admin/') {
+      const path = window.location.pathname;
+      if (path === '/admin' || path === '/admin/' || path.startsWith('/admin')) {
         setShowAdminPanel(true);
       } else {
         setShowAdminPanel(false);
@@ -145,6 +149,7 @@ export default function App() {
     window.history.pushState({}, '', '/');
   };
 
+  // Если открыта админ-панель, показываем только её
   if (showAdminPanel) {
     return <AdminPanel onClose={handleAdminClose} />;
   }
