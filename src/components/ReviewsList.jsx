@@ -20,57 +20,54 @@ export default function ReviewsList({ serviceId, limit = 3 }) {
 
   if (reviews.length === 0) {
     return (
-      <div className="text-center py-8">
-        <div className="text-4xl mb-2">📝</div>
+      <div className="text-center py-4">
         <p className="text-gray-400 text-sm">No reviews yet. Be the first to review!</p>
       </div>
     );
   }
 
   return (
-    <div>
-      {/* Rating Summary */}
-      <div className="flex items-center gap-3 mb-4 pb-4 border-b border-amber-200/30">
+    <div className="mt-3 pt-3 border-t border-gray-100">
+      <div className="flex items-center gap-3 mb-3">
         <div className="flex items-center gap-2">
-          <span className="text-3xl font-bold text-gray-800">{averageRating}</span>
+          <span className="text-lg font-bold text-gray-700">{averageRating}</span>
           <div className="flex gap-0.5">
             {[1,2,3,4,5].map(star => (
-              <span key={star} className={star <= Math.round(averageRating) ? "text-yellow-400" : "text-gray-300"}>
+              <span key={star} className={star <= Math.round(averageRating) ? "text-amber-400" : "text-gray-300"}>
                 ★
               </span>
             ))}
           </div>
         </div>
-        <span className="text-sm text-gray-500">({reviews.length} reviews)</span>
+        <span className="text-xs text-gray-400">({reviews.length} reviews)</span>
       </div>
 
-      {/* Reviews List */}
-      <div className="space-y-4">
+      <div className="space-y-3">
         {displayedReviews.map((review) => (
-          <div key={review.id} className="bg-gray-50 rounded-2xl p-4 border border-gray-100 hover:shadow-md transition-all duration-300">
-            <div className="flex justify-between items-start mb-2">
+          <div key={review.id} className="bg-gradient-to-r from-gray-50 to-white rounded-xl p-3 border border-gray-100 hover:shadow-md transition-all duration-300">
+            <div className="flex justify-between items-start mb-1">
               <div>
                 <div className="flex items-center gap-2">
                   <div className="flex gap-0.5">
                     {[1,2,3,4,5].map(star => (
-                      <span key={star} className={star <= review.rating ? "text-yellow-400" : "text-gray-300"}>
+                      <span key={star} className={star <= review.rating ? "text-amber-400" : "text-gray-300"}>
                         ★
                       </span>
                     ))}
                   </div>
                   {review.verified && (
-                    <span className="text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
-                      ✓ Verified Guest
+                    <span className="text-[9px] text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full border border-green-200/50">
+                      Verified Guest
                     </span>
                   )}
                 </div>
-                <p className="font-semibold text-gray-800 text-sm mt-1">{review.title}</p>
+                <p className="font-semibold text-gray-800 text-sm mt-0.5">{review.title}</p>
               </div>
-              <span className="text-xs text-gray-400">
+              <span className="text-[10px] text-gray-400">
                 {new Date(review.date).toLocaleDateString()}
               </span>
             </div>
-            <p className="text-gray-600 text-sm mt-1">{review.review}</p>
+            <p className="text-gray-600 text-xs mt-1 leading-relaxed">{review.review}</p>
           </div>
         ))}
       </div>
@@ -78,7 +75,7 @@ export default function ReviewsList({ serviceId, limit = 3 }) {
       {reviews.length > limit && (
         <button
           onClick={() => setShowAll(!showAll)}
-          className="mt-4 text-sm text-amber-600 hover:text-amber-700 font-semibold transition-all duration-300 flex items-center gap-1"
+          className="mt-2 text-xs text-amber-600 hover:text-amber-700 font-medium transition-all duration-300 flex items-center gap-1"
         >
           {showAll ? "Show less ↑" : `See all ${reviews.length} reviews →`}
         </button>

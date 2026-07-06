@@ -86,22 +86,20 @@ export default function RequestForm({ service, onClose, onSuccess }) {
     return (
       <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fadeIn">
         <div className="bg-white rounded-3xl max-w-md w-full p-8 text-center shadow-2xl animate-scaleUp border border-amber-100/30">
-          {/* Анимированная иконка */}
           <div className="relative">
             <div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
               <div className="w-28 h-28 bg-gradient-to-br from-amber-400 via-orange-400 to-amber-600 rounded-full flex items-center justify-center shadow-2xl animate-bounce ring-4 ring-amber-200/50">
-                <span className="text-5xl">🎫</span>
+                <span className="text-4xl font-serif font-bold text-white">★</span>
               </div>
             </div>
           </div>
           
           <div className="mt-12">
             <h2 className="text-3xl font-serif font-bold text-gray-800 mb-2">
-              ✨ Your Reservation Code
+              Your Reservation Code
             </h2>
             <p className="text-gray-500 text-sm mb-6">Please save this code for your records</p>
             
-            {/* Код бронирования */}
             <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 p-6 rounded-2xl border-2 border-amber-200/50 shadow-inner relative overflow-hidden">
               <div className="absolute top-0 right-0 opacity-10 text-6xl">✦</div>
               <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Booking Reference</p>
@@ -112,13 +110,12 @@ export default function RequestForm({ service, onClose, onSuccess }) {
               </div>
             </div>
 
-            {/* Кнопки */}
             <div className="mt-6 flex flex-col gap-3">
               <button
                 onClick={handleConfirm}
                 className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3.5 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-2 group"
               >
-                <span className="text-xl group-hover:rotate-12 transition-transform">✅</span>
+                <span className="group-hover:rotate-12 transition-transform">✓</span>
                 <span>Confirm Reservation</span>
                 <span className="group-hover:translate-x-1 transition-transform">→</span>
               </button>
@@ -142,10 +139,10 @@ export default function RequestForm({ service, onClose, onSuccess }) {
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4 overflow-y-auto animate-fadeIn">
       <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-amber-100/30 animate-slideUp">
-        {/* Header - Premium */}
+        {/* Header */}
         <div className="sticky top-0 bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100 px-6 py-5 flex justify-between items-center border-b border-amber-200/50 rounded-t-3xl">
           <div>
-            <h2 className="text-2xl font-serif font-bold text-gray-800">✨ Complete Your Booking</h2>
+            <h2 className="text-2xl font-serif font-bold text-gray-800">Complete Your Booking</h2>
             <p className="text-sm text-gray-500 flex items-center gap-2 mt-1">
               <span className="text-2xl">{service.icon}</span>
               <span className="font-medium">{service.title}</span>
@@ -161,7 +158,6 @@ export default function RequestForm({ service, onClose, onSuccess }) {
 
         {/* Form */}
         <form onSubmit={handleGenerateCode} className="p-6 space-y-4">
-          {/* Service Card */}
           <div className="bg-gradient-to-br from-amber-50/80 via-orange-50/80 to-amber-100/80 rounded-2xl p-4 flex items-center gap-4 border border-amber-200/30 shadow-sm">
             <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg flex-shrink-0">
               {service.icon}
@@ -169,7 +165,7 @@ export default function RequestForm({ service, onClose, onSuccess }) {
             <div className="flex-1">
               <p className="font-semibold text-gray-800 text-lg">{service.title}</p>
               <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500">
-                <span className="flex items-center gap-1">🕒 {service.time}</span>
+                <span className="flex items-center gap-1">⌚ {service.time}</span>
                 <span className="flex items-center gap-1">📍 {service.location}</span>
               </div>
               <p className="text-xl font-bold text-amber-600 mt-1">฿{service.price} {service.priceUnit}</p>
@@ -179,7 +175,7 @@ export default function RequestForm({ service, onClose, onSuccess }) {
           {/* Full Name */}
           <div className="group">
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-              👤 Full Name <span className="text-red-500">*</span>
+              Full Name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -194,10 +190,9 @@ export default function RequestForm({ service, onClose, onSuccess }) {
             {errors.name && <p className="text-red-500 text-xs mt-1 animate-shake">{errors.name}</p>}
           </div>
 
-          {/* Email */}
           <div className="group">
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-              ✉️ Email <span className="text-red-500">*</span>
+              Email <span className="text-red-500">*</span>
             </label>
             <input
               type="email"
@@ -212,11 +207,10 @@ export default function RequestForm({ service, onClose, onSuccess }) {
             {errors.email && <p className="text-red-500 text-xs mt-1 animate-shake">{errors.email}</p>}
           </div>
 
-          {/* Phone & Room */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                📞 Phone <span className="text-red-500">*</span>
+                Phone <span className="text-red-500">*</span>
               </label>
               <input
                 type="tel"
@@ -232,7 +226,7 @@ export default function RequestForm({ service, onClose, onSuccess }) {
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                🚪 Room <span className="text-red-500">*</span>
+                Room <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -248,11 +242,10 @@ export default function RequestForm({ service, onClose, onSuccess }) {
             </div>
           </div>
 
-          {/* Date & Guests */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                📅 Date <span className="text-red-500">*</span>
+                Date <span className="text-red-500">*</span>
               </label>
               <input
                 type="date"
@@ -267,7 +260,7 @@ export default function RequestForm({ service, onClose, onSuccess }) {
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                👥 Guests
+                Guests
               </label>
               <select
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300 bg-gray-50/50 focus:bg-white hover:border-amber-300"
@@ -281,10 +274,9 @@ export default function RequestForm({ service, onClose, onSuccess }) {
             </div>
           </div>
 
-          {/* Special Requests */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-              💬 Special Requests
+              Special Requests
             </label>
             <textarea
               rows="3"
@@ -295,7 +287,6 @@ export default function RequestForm({ service, onClose, onSuccess }) {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={isSubmitting}
@@ -311,7 +302,7 @@ export default function RequestForm({ service, onClose, onSuccess }) {
               </>
             ) : (
               <>
-                <span className="text-xl group-hover:rotate-12 transition-transform">✨</span>
+                <span className="group-hover:rotate-12 transition-transform">✦</span>
                 <span>Generate Reservation Code</span>
                 <span className="group-hover:translate-x-2 transition-transform">→</span>
               </>
@@ -319,7 +310,7 @@ export default function RequestForm({ service, onClose, onSuccess }) {
           </button>
 
           <p className="text-xs text-center text-gray-400">
-            🔐 By continuing, you agree to our Terms of Service and Privacy Policy
+            By continuing, you agree to our Terms of Service and Privacy Policy
           </p>
         </form>
       </div>

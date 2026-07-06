@@ -12,7 +12,7 @@ export const services = [
     time: "18:00-22:00",
     location: "Beach area",
     icon: "🍖",
-    image: "5854615107b42f5f74f76034fca35a56.png",
+    image: "https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?w=600&h=400&fit=crop",
     options: ["Seafood", "Meat", "Vegetarian"],
     popular: true,
     rating: 4.9,

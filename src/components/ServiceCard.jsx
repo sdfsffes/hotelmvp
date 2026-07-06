@@ -14,22 +14,18 @@ export default function ServiceCard({ service, onBookNow }) {
   };
   
   const bgColor = categoryColors[service.category] || "from-amber-600 to-amber-800";
-
-  // Если нет изображения или ошибка - показываем градиент
   const showGradient = !service.image || imageError;
 
   return (
     <div 
-      className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer"
+      className="group relative bg-gradient-to-br from-white to-gray-50/80 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer border border-gray-100"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Popular Badge */}
       {service.popular && (
-        <div className="absolute top-4 left-4 z-20 bg-gradient-to-r from-amber-500 to-amber-700 text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1 tracking-wide uppercase">
-          <span className="text-yellow-300 text-xs">★</span>
+        <div className="absolute top-4 left-4 z-20 bg-gradient-to-r from-amber-500 to-amber-700 text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow-lg tracking-wide uppercase">
           Most Popular
-          <span className="text-yellow-300 text-xs">★</span>
         </div>
       )}
 
@@ -45,25 +41,21 @@ export default function ServiceCard({ service, onBookNow }) {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <span className="text-7xl group-hover:scale-110 transition-transform duration-500">
+            <span className="text-7xl group-hover:scale-110 transition-transform duration-500 opacity-80">
               {service.icon}
             </span>
           </div>
         )}
         
-        {/* Overlay gradient */}
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/50 to-transparent"></div>
         
-        {/* Code Badge */}
         <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1">
           <span className="text-white text-[10px] font-mono font-bold tracking-wider">{service.code}</span>
         </div>
         
-        {/* Category Badge */}
         <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1">
-          <span className="text-white text-[10px] font-semibold flex items-center gap-1 uppercase tracking-wide">
-            <span>{service.icon}</span>
-            <span>{service.category}</span>
+          <span className="text-white text-[10px] font-semibold uppercase tracking-wide">
+            {service.category}
           </span>
         </div>
       </div>
@@ -74,7 +66,7 @@ export default function ServiceCard({ service, onBookNow }) {
           <h3 className="text-lg font-serif font-bold text-gray-800 group-hover:text-amber-700 transition-colors">
             {service.title}
           </h3>
-          <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-lg">
+          <div className="flex items-center gap-1 bg-gradient-to-r from-amber-50 to-orange-50 px-2 py-1 rounded-lg border border-amber-100/30">
             <span className="text-amber-500 text-xs">★</span>
             <span className="text-xs font-bold text-gray-700">{service.rating}</span>
             <span className="text-[9px] text-gray-400">({service.reviewsCount})</span>
@@ -91,19 +83,19 @@ export default function ServiceCard({ service, onBookNow }) {
             <span className="text-[9px] text-gray-400">/ person</span>
           </div>
           <div className="flex items-center gap-1 text-gray-400 text-xs">
-            <span>🕒</span>
+            <span className="text-xs">⌚</span>
             <span>{service.time}</span>
           </div>
         </div>
 
         <div className="flex items-center gap-1 text-gray-400 text-xs mb-3">
-          <span>📍</span>
+          <span className="text-xs">📍</span>
           <span>{service.location}</span>
         </div>
 
         <div className="flex flex-wrap gap-1.5 mb-4">
           {service.options.slice(0, 3).map((option, idx) => (
-            <span key={idx} className="text-[9px] bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+            <span key={idx} className="text-[9px] bg-gradient-to-r from-gray-50 to-gray-100 text-gray-600 px-2 py-1 rounded-full border border-gray-200/50">
               {option}
             </span>
           ))}
@@ -116,7 +108,7 @@ export default function ServiceCard({ service, onBookNow }) {
 
         <button
           onClick={() => onBookNow(service)}
-          className="relative w-full overflow-hidden group/btn bg-gradient-to-r from-amber-600 to-amber-800 text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 hover:shadow-lg"
+          className="relative w-full overflow-hidden group/btn bg-gradient-to-r from-amber-600 to-amber-800 text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 hover:shadow-lg tracking-wide"
         >
           <span className="relative z-10 flex items-center justify-center gap-2">
             <span>Reserve Experience</span>

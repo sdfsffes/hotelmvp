@@ -1,5 +1,5 @@
 // src/components/SuccessScreen.jsx
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import ReviewForm from "./ReviewForm";
 import ReviewsList from "./ReviewsList";
 
@@ -62,20 +62,18 @@ export default function SuccessScreen({ request, onClose }) {
     <>
       <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fadeIn">
         <div className="bg-white rounded-3xl max-w-md w-full p-8 text-center shadow-2xl border border-amber-100/30 animate-scaleUp">
-          {/* Success Icon */}
           <div className="relative">
             <div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
               <div className="w-28 h-28 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-2xl animate-bounce ring-4 ring-green-200/50">
-                <span className="text-5xl">✓</span>
+                <span className="text-5xl font-serif font-bold text-white">✓</span>
               </div>
             </div>
           </div>
 
           <div className="mt-12">
-            <h2 className="text-3xl font-serif font-bold text-gray-800 mb-2">🎉 Reservation Confirmed!</h2>
+            <h2 className="text-3xl font-serif font-bold text-gray-800 mb-2">Reservation Confirmed</h2>
             <p className="text-gray-500 text-sm mb-6">Thank you for choosing Movenpick</p>
 
-            {/* Booking Code */}
             <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 p-6 rounded-2xl border-2 border-amber-200/50 shadow-inner">
               <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Booking Reference</p>
               <div className="flex items-center justify-center gap-3">
@@ -85,13 +83,12 @@ export default function SuccessScreen({ request, onClose }) {
                   className="p-2 bg-white rounded-lg hover:bg-gray-50 transition-all shadow-sm"
                   title="Copy code"
                 >
-                  {copied ? '✅' : '📋'}
+                  {copied ? '✓' : '📋'}
                 </button>
               </div>
               <p className="text-xs text-gray-400 mt-2">Verification: {request.verificationCode}</p>
             </div>
 
-            {/* Details */}
             <div className="mt-6 grid grid-cols-2 gap-3 text-sm bg-gray-50 p-4 rounded-2xl">
               <div className="text-left">
                 <p className="text-gray-400 text-xs">Service</p>
@@ -111,13 +108,12 @@ export default function SuccessScreen({ request, onClose }) {
               </div>
             </div>
 
-            {/* Кнопки */}
             <div className="mt-6 flex flex-col gap-3">
               <button
                 onClick={onClose}
                 className="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white py-3.5 rounded-xl font-semibold hover:from-amber-600 hover:to-orange-600 transition-all duration-300 transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-2 group"
               >
-                <span>🏠</span>
+                <span>←</span>
                 <span>Back to Experiences</span>
               </button>
               
@@ -126,14 +122,14 @@ export default function SuccessScreen({ request, onClose }) {
                   onClick={() => setShowReviewForm(true)}
                   className="w-full border-2 border-amber-500/50 text-amber-600 py-3 rounded-xl font-semibold hover:bg-amber-50 transition-all duration-300 flex items-center justify-center gap-2 group"
                 >
-                  <span className="group-hover:scale-110 transition-transform">⭐</span>
+                  <span className="group-hover:scale-110 transition-transform">★</span>
                   <span>Leave a Review</span>
                 </button>
               )}
               
               {reviewSubmitted && (
                 <div className="p-3 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm animate-fadeIn">
-                  ✅ Thank you for your review!
+                  Thank you for your review!
                 </div>
               )}
 
@@ -153,7 +149,6 @@ export default function SuccessScreen({ request, onClose }) {
         </div>
       </div>
 
-      {/* Форма отзыва */}
       {showReviewForm && (
         <ReviewForm
           service={request.service}
@@ -163,13 +158,12 @@ export default function SuccessScreen({ request, onClose }) {
         />
       )}
 
-      {/* Все отзывы */}
       {showAllReviews && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fadeIn">
           <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-amber-100/30 animate-scaleUp">
             <div className="sticky top-0 bg-gradient-to-r from-amber-50 to-orange-50 px-6 py-5 flex justify-between items-center border-b border-amber-200/50 rounded-t-3xl">
               <div>
-                <h2 className="text-2xl font-serif font-bold text-gray-800">📖 All Reviews</h2>
+                <h2 className="text-2xl font-serif font-bold text-gray-800">All Reviews</h2>
                 <p className="text-sm text-gray-500">What guests are saying</p>
               </div>
               <button 
