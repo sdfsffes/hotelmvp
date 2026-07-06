@@ -82,7 +82,6 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [allReviews, setAllReviews] = useState([]);
 
-  // Загрузка отзывов и проверка URL
   useEffect(() => {
     try {
       const reviews = JSON.parse(localStorage.getItem("hotel_reviews") || "[]");
@@ -91,14 +90,12 @@ export default function App() {
       setAllReviews([]);
     }
 
-    // Проверка URL на /admin
     const path = window.location.pathname;
     if (path === '/admin' || path === '/admin/' || path.startsWith('/admin')) {
       setShowAdminPanel(true);
     }
   }, []);
 
-  // Слушаем изменения URL
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname;
@@ -158,7 +155,6 @@ export default function App() {
     window.history.pushState({}, '', '/');
   };
 
-  // Если открыта админ-панель
   if (showAdminPanel) {
     return <AdminPanel onClose={handleAdminClose} />;
   }
