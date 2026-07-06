@@ -82,18 +82,23 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [allReviews, setAllReviews] = useState([]);
 
+  // Загрузка отзывов и проверка URL
   useEffect(() => {
-    const reviews = JSON.parse(localStorage.getItem("hotel_reviews") || "[]");
-    setAllReviews(reviews);
+    try {
+      const reviews = JSON.parse(localStorage.getItem("hotel_reviews") || "[]");
+      setAllReviews(reviews);
+    } catch (e) {
+      setAllReviews([]);
+    }
 
-    // Проверка URL на /admin - работает и на локальном и на Vercel
+    // Проверка URL на /admin
     const path = window.location.pathname;
     if (path === '/admin' || path === '/admin/' || path.startsWith('/admin')) {
       setShowAdminPanel(true);
     }
   }, []);
 
-  // Слушаем изменения URL для /admin
+  // Слушаем изменения URL
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname;
@@ -140,8 +145,12 @@ export default function App() {
   const handleCloseSuccess = () => {
     setSuccessRequest(null);
     setSelectedService(null);
-    const reviews = JSON.parse(localStorage.getItem("hotel_reviews") || "[]");
-    setAllReviews(reviews);
+    try {
+      const reviews = JSON.parse(localStorage.getItem("hotel_reviews") || "[]");
+      setAllReviews(reviews);
+    } catch (e) {
+      setAllReviews([]);
+    }
   };
 
   const handleAdminClose = () => {
@@ -149,7 +158,7 @@ export default function App() {
     window.history.pushState({}, '', '/');
   };
 
-  // Если открыта админ-панель, показываем только её
+  // Если открыта админ-панель
   if (showAdminPanel) {
     return <AdminPanel onClose={handleAdminClose} />;
   }
@@ -477,7 +486,7 @@ export default function App() {
             </div>
           )}
         </div>
-      </div>
+      </section>
 
       {/* Footer */}
       <footer className="bg-[#1a2a3a] text-white/80 py-12 mt-8">
