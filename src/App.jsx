@@ -428,7 +428,7 @@ export default function App() {
       </section>
 
       {/* Categories */}
-      <section className="relative py-12 overflow-hidden bg-cover bg-center" style={{ backgroundImage: backgroundImages.categories }}>
+      <div className="relative py-12 overflow-hidden bg-cover bg-center" style={{ backgroundImage: backgroundImages.categories }}>
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative container mx-auto px-4 z-10">
           <div className="flex flex-wrap justify-center gap-3">
@@ -454,7 +454,7 @@ export default function App() {
             </p>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Services Grid */}
       <div id="services-section" className="relative py-8 overflow-hidden bg-cover bg-center" style={{ backgroundImage: backgroundImages.services }}>
@@ -482,7 +482,7 @@ export default function App() {
             </div>
           )}
         </div>
-      </section>
+      </div>
 
       {/* Footer */}
       <footer className="bg-[#1a2a3a] text-white/80 py-12 mt-8">
