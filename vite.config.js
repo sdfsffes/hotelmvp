@@ -6,18 +6,11 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     minify: false,
+    sourcemap: true, // Добавьте для отладки
     rollupOptions: {
       output: {
         manualChunks: undefined
       }
-    }
-  },
-  css: {
-    minify: false
-  },
-  server: {
-    hmr: {
-      overlay: false
     }
   }
 })
