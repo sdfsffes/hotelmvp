@@ -85,6 +85,23 @@ export default function App() {
   useEffect(() => {
     const reviews = JSON.parse(localStorage.getItem("hotel_reviews") || "[]");
     setAllReviews(reviews);
+
+    if (window.location.pathname === '/admin' || window.location.pathname === '/admin/') {
+      setShowAdminPanel(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (window.location.pathname === '/admin' || window.location.pathname === '/admin/') {
+        setShowAdminPanel(true);
+      } else {
+        setShowAdminPanel(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   const filteredServices = activeCategory === "all" 
@@ -123,27 +140,33 @@ export default function App() {
     setAllReviews(reviews);
   };
 
+  const handleAdminClose = () => {
+    setShowAdminPanel(false);
+    window.history.pushState({}, '', '/');
+  };
+
+  if (showAdminPanel) {
+    return <AdminPanel onClose={handleAdminClose} />;
+  }
+
   return (
-    <div className="min-h-screen bg-[#f8f6f2]">
-      <Header 
-        onAdminClick={() => setShowAdminPanel(true)} 
-        onCategoryClick={handleCategoryClick}
-      />
+    <div className="min-h-screen bg-[#f8f6f2] font-sans">
+      <Header onCategoryClick={handleCategoryClick} />
       
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-cover bg-center" style={{ backgroundImage: backgroundImages.hero }}>
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent"></div>
         <div className="relative container mx-auto px-4 z-10">
           <div className="max-w-3xl">
-            <div className="flex items-center gap-2 text-amber-300 text-sm tracking-widest mb-4">
+            <div className="flex items-center gap-2 text-amber-300 text-sm tracking-widest mb-4 font-sans">
               <span>✦</span>
-              <span>MÖVENPICK SIAM HOTEL</span>
+              <span className="tracking-[0.3em]">MÖVENPICK SIAM HOTEL</span>
               <span>✦</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-serif font-bold text-white leading-tight mb-6">
               Family Paradise <br />in Pattaya
             </h1>
-            <p className="text-xl text-white/90 mb-8 max-w-xl">
+            <p className="text-xl text-white/90 mb-8 max-w-xl font-sans font-light leading-relaxed">
               Welcome to Na Jomtien Beach, home of Mövenpick Siam Hotel. A beachfront resort featuring sea view rooms, a lagoon pool, spa, and warm Swiss hospitality.
             </p>
             <div className="flex flex-wrap gap-4">
@@ -151,7 +174,7 @@ export default function App() {
                 onClick={() => {
                   document.getElementById('services-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
-                className="bg-gradient-to-r from-amber-500 to-amber-700 text-white px-8 py-3 rounded-full font-semibold hover:from-amber-600 hover:to-amber-800 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="bg-gradient-to-r from-amber-500 to-amber-700 text-white px-8 py-3 rounded-full font-semibold hover:from-amber-600 hover:to-amber-800 transition-all shadow-lg hover:shadow-xl transform hover:scale-105 font-sans tracking-wide"
               >
                 Explore Experiences
               </button>
@@ -159,12 +182,12 @@ export default function App() {
                 onClick={() => {
                   document.getElementById('services-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
-                className="border-2 border-white/50 text-white px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition-all backdrop-blur-sm"
+                className="border-2 border-white/50 text-white px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition-all backdrop-blur-sm font-sans tracking-wide"
               >
                 View Services
               </button>
             </div>
-            <div className="mt-12 flex flex-wrap gap-8 text-white/70 text-sm">
+            <div className="mt-12 flex flex-wrap gap-8 text-white/70 text-sm font-sans">
               <div className="flex items-center gap-2">
                 <span className="text-amber-400">✦</span>
                 <span>262 Elegant Rooms</span>
@@ -193,15 +216,15 @@ export default function App() {
         <div className="relative container mx-auto px-4 z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-xl border border-amber-100/30">
-              <span className="text-amber-600 font-semibold tracking-widest text-sm">EXPERIENCE</span>
+              <span className="text-amber-600 font-semibold tracking-widest text-sm font-sans">EXPERIENCE</span>
               <h2 className="text-4xl md:text-5xl font-serif font-bold mt-2 mb-4 text-gray-800">
                 Your Family Escape by the Sea
               </h2>
-              <p className="text-gray-600 text-lg mb-6 leading-relaxed">
+              <p className="text-gray-600 text-lg mb-6 leading-relaxed font-sans font-light">
                 Nestled in one of Pattaya's most peaceful coastal areas, this beachfront resort features sea view rooms, 
                 a lagoon pool, spa, and warm Swiss hospitality. Just 2 hours from Bangkok, it's a perfect escape for your next seaside retreat.
               </p>
-              <div className="flex gap-8">
+              <div className="flex gap-8 font-sans">
                 <div>
                   <span className="text-3xl font-bold text-amber-600">262</span>
                   <p className="text-sm text-gray-500">Elegant Rooms</p>
@@ -225,13 +248,13 @@ export default function App() {
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative container mx-auto px-4 z-10">
           <div className="text-center mb-12">
-            <span className="text-amber-400 font-semibold tracking-widest text-sm">DINING</span>
+            <span className="text-amber-400 font-semibold tracking-[0.2em] text-sm font-sans">DINING</span>
             <h2 className="text-4xl md:text-5xl font-serif font-bold mt-2 text-white">Restaurants & Bars</h2>
-            <p className="text-white/80 max-w-2xl mx-auto mt-2">Discover where the best restaurants gather to provide a rich and flavorful dining journey</p>
+            <p className="text-white/80 max-w-2xl mx-auto mt-2 font-sans font-light">Discover where the best restaurants gather to provide a rich and flavorful dining journey</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            {restaurants.map((item, index) => (
-              <div key={item.id} className="group bg-white/95 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-700 hover:-translate-y-4 animate-fadeInUp" style={{ animationDelay: `${index * 150}ms` }}>
+            {restaurants.map((item) => (
+              <div key={item.id} className="group bg-white/95 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-700 hover:-translate-y-4">
                 <div className="relative h-64 overflow-hidden">
                   <img 
                     src={item.image} 
@@ -242,9 +265,9 @@ export default function App() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 </div>
                 <div className="p-8">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-3 group-hover:text-amber-600 transition-colors">{item.name}</h3>
-                  <p className="text-gray-500 leading-relaxed">{item.description}</p>
-                  <button className="mt-6 text-amber-600 font-semibold hover:text-amber-700 transition-all flex items-center gap-2 group-hover:gap-4">
+                  <h3 className="text-2xl font-serif font-bold text-gray-800 mb-3 group-hover:text-amber-600 transition-colors">{item.name}</h3>
+                  <p className="text-gray-500 leading-relaxed font-sans font-light">{item.description}</p>
+                  <button className="mt-6 text-amber-600 font-semibold hover:text-amber-700 transition-all flex items-center gap-2 group-hover:gap-4 font-sans">
                     Learn more <span className="transition-transform">→</span>
                   </button>
                 </div>
@@ -259,13 +282,13 @@ export default function App() {
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="relative container mx-auto px-4 z-10">
           <div className="text-center mb-12">
-            <span className="text-amber-400 font-semibold tracking-widest text-sm">ACCOMMODATION</span>
+            <span className="text-amber-400 font-semibold tracking-[0.2em] text-sm font-sans">ACCOMMODATION</span>
             <h2 className="text-4xl md:text-5xl font-serif font-bold mt-2 text-white">Rooms & Suites</h2>
-            <p className="text-white/80 max-w-2xl mx-auto mt-2">Find your perfect accommodation in Pattaya with stunning sea views from private balconies</p>
+            <p className="text-white/80 max-w-2xl mx-auto mt-2 font-sans font-light">Find your perfect accommodation in Pattaya with stunning sea views from private balconies</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            {rooms.map((room, index) => (
-              <div key={room.id} className="group relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-700 hover:-translate-y-4 animate-fadeInUp" style={{ animationDelay: `${index * 150}ms` }}>
+            {rooms.map((room) => (
+              <div key={room.id} className="group relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-700 hover:-translate-y-4">
                 <img 
                   src={room.image} 
                   alt={room.name} 
@@ -274,9 +297,9 @@ export default function App() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                 <div className="absolute bottom-0 p-8 text-white">
-                  <h3 className="text-2xl font-bold">{room.name}</h3>
-                  <p className="text-sm opacity-80 mt-2 leading-relaxed">{room.description}</p>
-                  <button className="mt-4 px-8 py-3 bg-gradient-to-r from-amber-500 to-amber-700 rounded-full text-sm font-semibold hover:from-amber-600 hover:to-amber-800 transition-all shadow-lg hover:shadow-amber-500/30 transform hover:scale-105">
+                  <h3 className="text-2xl font-serif font-bold">{room.name}</h3>
+                  <p className="text-sm opacity-80 mt-2 leading-relaxed font-sans font-light">{room.description}</p>
+                  <button className="mt-4 px-8 py-3 bg-gradient-to-r from-amber-500 to-amber-700 rounded-full text-sm font-semibold hover:from-amber-600 hover:to-amber-800 transition-all shadow-lg hover:shadow-amber-500/30 transform hover:scale-105 font-sans tracking-wide">
                     View Details
                   </button>
                 </div>
@@ -292,7 +315,7 @@ export default function App() {
         <div className="relative container mx-auto px-4 z-10">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-serif font-bold text-white">Why Choose Movenpick</h2>
-            <p className="text-white/80 max-w-2xl mx-auto mt-2">Life tastes better at Movenpick Pattaya</p>
+            <p className="text-white/80 max-w-2xl mx-auto mt-2 font-sans font-light">Life tastes better at Movenpick Pattaya</p>
           </div>
           <div className="grid md:grid-cols-4 gap-8">
             {[
@@ -305,8 +328,8 @@ export default function App() {
                 <img src={item.img} alt={item.title} className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                 <div className="absolute bottom-0 p-6 text-white">
-                  <h3 className="text-xl font-bold">{item.title}</h3>
-                  <p className="text-sm opacity-80 mt-2">{item.desc}</p>
+                  <h3 className="text-xl font-serif font-bold">{item.title}</h3>
+                  <p className="text-sm opacity-80 mt-2 font-sans font-light">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -319,9 +342,9 @@ export default function App() {
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative container mx-auto px-4 z-10">
           <div className="text-center mb-12">
-            <span className="text-amber-400 font-semibold tracking-[0.2em] text-sm">OFFERS</span>
+            <span className="text-amber-400 font-semibold tracking-[0.2em] text-sm font-sans">OFFERS</span>
             <h2 className="text-4xl md:text-5xl font-serif font-bold mt-2 text-white">Double the Joy</h2>
-            <p className="text-white/80 max-w-2xl mx-auto mt-2">Save up to 25% on your next coastal escape</p>
+            <p className="text-white/80 max-w-2xl mx-auto mt-2 font-sans font-light">Save up to 25% on your next coastal escape</p>
           </div>
           <div className="max-w-4xl mx-auto bg-white/95 backdrop-blur-md rounded-2xl p-8 md:p-12 shadow-2xl border border-amber-100/30 transform hover:scale-[1.02] transition-all duration-500">
             <div className="flex flex-col md:flex-row justify-between items-center gap-6">
@@ -331,17 +354,17 @@ export default function App() {
                   <span className="text-3xl font-bold text-amber-600">OFF</span>
                 </div>
                 <p className="text-2xl font-serif mt-2 text-gray-800">Stay in the Moment</p>
-                <p className="text-gray-500 text-sm mt-1">Valid for stays until 30 September 2026</p>
+                <p className="text-gray-500 text-sm mt-1 font-sans">Valid for stays until 30 September 2026</p>
                 <div className="flex flex-wrap gap-3 mt-3">
-                  <span className="bg-gradient-to-r from-amber-100/70 to-orange-100/70 px-3 py-1.5 rounded-full text-amber-700 text-xs font-medium border border-amber-200/50">
+                  <span className="bg-gradient-to-r from-amber-100/70 to-orange-100/70 px-3 py-1.5 rounded-full text-amber-700 text-xs font-medium border border-amber-200/50 font-sans">
                     Sea View Rooms
                   </span>
-                  <span className="bg-gradient-to-r from-amber-100/70 to-orange-100/70 px-3 py-1.5 rounded-full text-amber-700 text-xs font-medium border border-amber-200/50">
+                  <span className="bg-gradient-to-r from-amber-100/70 to-orange-100/70 px-3 py-1.5 rounded-full text-amber-700 text-xs font-medium border border-amber-200/50 font-sans">
                     Chocolate Hour
                   </span>
                 </div>
               </div>
-              <button className="px-8 py-3 bg-gradient-to-r from-amber-500 to-amber-700 text-white rounded-full font-semibold hover:from-amber-600 hover:to-amber-800 transition-all duration-500 shadow-lg hover:shadow-amber-500/30 transform hover:scale-105">
+              <button className="px-8 py-3 bg-gradient-to-r from-amber-500 to-amber-700 text-white rounded-full font-semibold hover:from-amber-600 hover:to-amber-800 transition-all duration-500 shadow-lg hover:shadow-amber-500/30 transform hover:scale-105 font-sans tracking-wide">
                 Book Now →
               </button>
             </div>
@@ -354,9 +377,9 @@ export default function App() {
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative container mx-auto px-4 z-10">
           <div className="text-center mb-12">
-            <span className="text-amber-400 font-semibold tracking-[0.2em] text-sm">WEDDING</span>
+            <span className="text-amber-400 font-semibold tracking-[0.2em] text-sm font-sans">WEDDING</span>
             <h2 className="text-4xl md:text-5xl font-serif font-bold mt-2 text-white">Plan Your Wedding</h2>
-            <p className="text-white/80 max-w-2xl mx-auto mt-2">The Perfect Backdrop for Your "I Do"</p>
+            <p className="text-white/80 max-w-2xl mx-auto mt-2 font-sans font-light">The Perfect Backdrop for Your "I Do"</p>
           </div>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="bg-white/95 backdrop-blur-md p-8 rounded-2xl shadow-2xl border border-rose-100/30 transform hover:-translate-y-2 transition-all duration-500">
@@ -364,22 +387,22 @@ export default function App() {
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-gray-700 p-3 rounded-xl hover:bg-gradient-to-r hover:from-amber-50 hover:to-rose-50 transition-all duration-300 border border-transparent hover:border-rose-100/30">
                   <span className="text-2xl w-8 text-amber-500">✦</span>
-                  <span className="text-lg">Versatile Event Spaces — up to 300 guests</span>
+                  <span className="text-lg font-sans">Versatile Event Spaces — up to 300 guests</span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-700 p-3 rounded-xl hover:bg-gradient-to-r hover:from-amber-50 hover:to-rose-50 transition-all duration-300 border border-transparent hover:border-rose-100/30">
                   <span className="text-2xl w-8 text-amber-500">✦</span>
-                  <span className="text-lg">Romantic Ambience with stunning sea views</span>
+                  <span className="text-lg font-sans">Romantic Ambience with stunning sea views</span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-700 p-3 rounded-xl hover:bg-gradient-to-r hover:from-amber-50 hover:to-rose-50 transition-all duration-300 border border-transparent hover:border-rose-100/30">
                   <span className="text-2xl w-8 text-amber-500">✦</span>
-                  <span className="text-lg">Professional Wedding Planner included</span>
+                  <span className="text-lg font-sans">Professional Wedding Planner included</span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-700 p-3 rounded-xl hover:bg-gradient-to-r hover:from-amber-50 hover:to-rose-50 transition-all duration-300 border border-transparent hover:border-rose-100/30">
                   <span className="text-2xl w-8 text-amber-500">✦</span>
-                  <span className="text-lg">Exquisite catering and decoration</span>
+                  <span className="text-lg font-sans">Exquisite catering and decoration</span>
                 </div>
               </div>
-              <button className="mt-8 px-8 py-3 bg-gradient-to-r from-amber-600 to-amber-800 text-white rounded-full font-semibold hover:from-amber-700 hover:to-amber-900 transition-all duration-500 shadow-lg hover:shadow-amber-500/30 transform hover:scale-105">
+              <button className="mt-8 px-8 py-3 bg-gradient-to-r from-amber-600 to-amber-800 text-white rounded-full font-semibold hover:from-amber-700 hover:to-amber-900 transition-all duration-500 shadow-lg hover:shadow-amber-500/30 transform hover:scale-105 font-sans tracking-wide">
                 Plan Your Wedding →
               </button>
             </div>
@@ -403,7 +426,7 @@ export default function App() {
               <button
                 key={cat.id}
                 onClick={() => handleCategoryClick(cat.id)}
-                className={`px-5 py-2.5 rounded-full font-semibold transition-all duration-300 flex items-center gap-2 shadow-md ${
+                className={`px-5 py-2.5 rounded-full font-semibold transition-all duration-300 flex items-center gap-2 shadow-md font-sans ${
                   activeCategory === cat.id
                     ? "bg-gradient-to-r from-amber-600 to-amber-800 text-white scale-105 shadow-lg"
                     : "bg-white/90 backdrop-blur-sm text-gray-700 hover:bg-white border border-white/30"
@@ -416,7 +439,7 @@ export default function App() {
             ))}
           </div>
           <div className="text-center mt-6">
-            <p className="text-white text-sm bg-black/30 backdrop-blur-sm inline-block px-4 py-2 rounded-full shadow-sm border border-white/20">
+            <p className="text-white text-sm bg-black/30 backdrop-blur-sm inline-block px-4 py-2 rounded-full shadow-sm border border-white/20 font-sans">
               ✦ {filteredServices.length} luxury experiences available ✦
             </p>
           </div>
@@ -430,8 +453,8 @@ export default function App() {
           {filteredServices.length === 0 ? (
             <div className="text-center py-16 bg-white/80 backdrop-blur-sm rounded-2xl">
               <div className="text-6xl mb-4">✦</div>
-              <h3 className="text-xl font-semibold text-gray-700 mb-2">No services found</h3>
-              <p className="text-gray-500">Try selecting a different category</p>
+              <h3 className="text-xl font-serif font-semibold text-gray-700 mb-2">No services found</h3>
+              <p className="text-gray-500 font-sans">Try selecting a different category</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -457,12 +480,12 @@ export default function App() {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <h3 className="text-2xl font-serif font-bold text-white">Movenpick</h3>
-              <p className="text-sm mt-2 text-white/60">Siam Hotel Na Jomtien Pattaya</p>
-              <p className="text-sm text-white/40">Just 90 minutes from Bangkok</p>
+              <p className="text-sm mt-2 text-white/60 font-sans">Siam Hotel Na Jomtien Pattaya</p>
+              <p className="text-sm text-white/40 font-sans">Just 90 minutes from Bangkok</p>
             </div>
             <div>
-              <h4 className="font-bold text-white mb-3">Quick Links</h4>
-              <ul className="space-y-2 text-sm">
+              <h4 className="font-bold text-white mb-3 font-sans">Quick Links</h4>
+              <ul className="space-y-2 text-sm font-sans">
                 <li><a href="#" className="hover:text-amber-400 transition">Rooms & Suites</a></li>
                 <li><a href="#" className="hover:text-amber-400 transition">Restaurants</a></li>
                 <li><a href="#" className="hover:text-amber-400 transition">Weddings</a></li>
@@ -471,8 +494,8 @@ export default function App() {
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-white mb-3">Contact</h4>
-              <ul className="space-y-2 text-sm">
+              <h4 className="font-bold text-white mb-3 font-sans">Contact</h4>
+              <ul className="space-y-2 text-sm font-sans">
                 <li>📍 Na Jomtien Beach, Pattaya</li>
                 <li>📞 +66 (0) 1234 5678</li>
                 <li>✉️ info@movenpickpattaya.com</li>
@@ -480,32 +503,23 @@ export default function App() {
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-white mb-3">Newsletter</h4>
-              <p className="text-sm text-white/60">Subscribe for exclusive offers</p>
+              <h4 className="font-bold text-white mb-3 font-sans">Newsletter</h4>
+              <p className="text-sm text-white/60 font-sans">Subscribe for exclusive offers</p>
               <div className="flex mt-3">
-                <input type="email" placeholder="Your email" className="px-4 py-2 rounded-l-full text-gray-800 w-full focus:outline-none" />
-                <button className="px-4 py-2 bg-amber-600 rounded-r-full hover:bg-amber-700 transition">→</button>
+                <input type="email" placeholder="Your email" className="px-4 py-2 rounded-l-full text-gray-800 w-full focus:outline-none font-sans" />
+                <button className="px-4 py-2 bg-amber-600 rounded-r-full hover:bg-amber-700 transition font-sans">→</button>
               </div>
-              <p className="text-xs text-white/40 mt-2">Get 10% off your first stay</p>
+              <p className="text-xs text-white/40 mt-2 font-sans">Get 10% off your first stay</p>
             </div>
           </div>
-          <div className="border-t border-white/10 mt-8 pt-8 text-center text-sm text-white/40">
+          <div className="border-t border-white/10 mt-8 pt-8 text-center text-sm text-white/40 font-sans">
             <p>© 2024 Movenpick Siam Hotel Na Jomtien Pattaya. All rights reserved.</p>
             <p className="mt-1">Crafted with excellence for unforgettable moments</p>
           </div>
         </div>
       </footer>
 
-      {/* Floating Admin Button */}
-      <button
-        onClick={() => setShowAdminPanel(true)}
-        className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-amber-600 to-amber-800 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300"
-        title="Admin Panel"
-      >
-        <span className="text-xl font-serif font-bold">M</span>
-      </button>
-
-      {/* Modals */}
+      {/* Модальные окна */}
       {showForm && selectedService && (
         <RequestForm
           service={selectedService}
@@ -519,10 +533,6 @@ export default function App() {
           request={successRequest}
           onClose={handleCloseSuccess}
         />
-      )}
-
-      {showAdminPanel && (
-        <AdminPanel onClose={() => setShowAdminPanel(false)} />
       )}
     </div>
   );
