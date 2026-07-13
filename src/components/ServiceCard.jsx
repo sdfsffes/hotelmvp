@@ -14,24 +14,24 @@ export default function ServiceCard({ service, onBookNow }) {
   };
   
   const bgColor = categoryColors[service.category] || "from-amber-600 to-amber-800";
-  const showGradient = !service.image || imageError;
+  const hasImage = service.image && !imageError;
 
   return (
     <div 
-      className="group relative bg-gradient-to-br from-white to-gray-50/80 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer border border-gray-100"
+      className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Popular Badge */}
       {service.popular && (
-        <div className="absolute top-4 left-4 z-20 bg-gradient-to-r from-amber-500 to-amber-700 text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow-lg tracking-wide uppercase">
+        <div className="absolute top-4 left-4 z-20 bg-gradient-to-r from-amber-500 to-amber-700 text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg tracking-wide uppercase">
           Most Popular
         </div>
       )}
 
       {/* Image Container */}
-      <div className={`relative h-56 overflow-hidden ${showGradient ? `bg-gradient-to-br ${bgColor}` : 'bg-gray-200'}`}>
-        {!showGradient ? (
+      <div className={`relative h-56 overflow-hidden ${hasImage ? 'bg-gray-200' : `bg-gradient-to-br ${bgColor}`}`}>
+        {hasImage ? (
           <img 
             src={service.image} 
             alt={service.title}
@@ -41,7 +41,7 @@ export default function ServiceCard({ service, onBookNow }) {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <span className="text-7xl group-hover:scale-110 transition-transform duration-500 opacity-80">
+            <span className="text-7xl group-hover:scale-110 transition-transform duration-500">
               {service.icon}
             </span>
           </div>
@@ -83,13 +83,13 @@ export default function ServiceCard({ service, onBookNow }) {
             <span className="text-[9px] text-gray-400">/ person</span>
           </div>
           <div className="flex items-center gap-1 text-gray-400 text-xs">
-            <span className="text-xs">⌚</span>
+            <span>⌚</span>
             <span>{service.time}</span>
           </div>
         </div>
 
         <div className="flex items-center gap-1 text-gray-400 text-xs mb-3">
-          <span className="text-xs">📍</span>
+          <span>📍</span>
           <span>{service.location}</span>
         </div>
 
