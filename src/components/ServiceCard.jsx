@@ -1,5 +1,6 @@
 // src/components/ServiceCard.jsx
 import { useState } from "react";
+import ReviewsList from "./ReviewsList";
 
 export default function ServiceCard({ service, onBookNow }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -32,13 +33,16 @@ export default function ServiceCard({ service, onBookNow }) {
       {/* Image Container */}
       <div className={`relative h-56 overflow-hidden ${hasImage ? 'bg-gray-200' : `bg-gradient-to-br ${bgColor}`}`}>
         {hasImage ? (
-          <img 
-            src={service.image} 
-            alt={service.title}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-            onError={() => setImageError(true)}
-            loading="lazy"
-          />
+          <>
+            <img 
+              src={service.image} 
+              alt={service.title}
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              onError={() => setImageError(true)}
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60"></div>
+          </>
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <span className="text-7xl group-hover:scale-110 transition-transform duration-500">
@@ -47,16 +51,18 @@ export default function ServiceCard({ service, onBookNow }) {
           </div>
         )}
         
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/50 to-transparent"></div>
-        
-        <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1">
+        <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1 border border-white/10">
           <span className="text-white text-[10px] font-mono font-bold tracking-wider">{service.code}</span>
         </div>
         
-        <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1">
+        <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1 border border-white/10">
           <span className="text-white text-[10px] font-semibold uppercase tracking-wide">
             {service.category}
           </span>
+        </div>
+
+        <div className="absolute bottom-4 right-4 bg-amber-500/90 backdrop-blur-sm rounded-full px-3 py-1 border border-amber-400/30">
+          <span className="text-white text-xs font-bold">฿{service.price}</span>
         </div>
       </div>
 
@@ -76,17 +82,6 @@ export default function ServiceCard({ service, onBookNow }) {
         <p className="text-gray-500 text-xs leading-relaxed mb-3 line-clamp-2">
           {service.shortDescription}
         </p>
-
-        <div className="flex justify-between items-center mb-3 pb-3 border-b border-gray-100">
-          <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-bold text-amber-700">฿{service.price}</span>
-            <span className="text-[9px] text-gray-400">/ person</span>
-          </div>
-          <div className="flex items-center gap-1 text-gray-400 text-xs">
-            <span>⌚</span>
-            <span>{service.time}</span>
-          </div>
-        </div>
 
         <div className="flex items-center gap-1 text-gray-400 text-xs mb-3">
           <span>📍</span>
@@ -116,6 +111,11 @@ export default function ServiceCard({ service, onBookNow }) {
           </span>
           <div className="absolute inset-0 bg-gradient-to-r from-amber-700 to-amber-900 transform translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></div>
         </button>
+
+        {/* Reviews - показываем только 1 */}
+        <div className="mt-3">
+          <ReviewsList serviceId={service.id} limit={1} />
+        </div>
       </div>
     </div>
   );

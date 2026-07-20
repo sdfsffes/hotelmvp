@@ -1,5 +1,6 @@
 // src/components/SuccessScreen.jsx
 import { useEffect, useState } from "react";
+import { supabase } from "../utils/supabase";
 import ReviewForm from "./ReviewForm";
 import ReviewsList from "./ReviewsList";
 
@@ -50,10 +51,42 @@ export default function SuccessScreen({ request, onClose }) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleReviewSubmit = (review) => {
+  const handleReviewSubmit = async (reviewData) => {
     setShowReviewForm(false);
     setReviewSubmitted(true);
     setTimeout(() => setReviewSubmitted(false), 3000);
+
+    try {
+      // Сохраняем в Supabase
+      const { data, error } = await supabase
+        .from('reviews')
+        .insert([{
+          booking_code: reviewData.bookingCode,
+          service_id: reviewData.serviceId,
+          customer_name: reviewData.customerName,
+          rating: reviewData.rating,
+          title: reviewData.title,
+          review: reviewData.review,
+          verified: reviewData.verified || false,
+          date: new Date().toISOString()
+        }])
+        .select();
+
+      if (error) {
+        console.error('Error saving review:', error);
+        // Fallback: сохраняем в localStorage
+        const existing = JSON.parse(localStorage.getItem("hotel_reviews") || "[]");
+        existing.push(reviewData);
+        localStorage.setItem("hotel_reviews", JSON.stringify(existing));
+      } else {
+        console.log('✅ Review saved to Supabase:', data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      const existing = JSON.parse(localStorage.getItem("hotel_reviews") || "[]");
+      existing.push(reviewData);
+      localStorage.setItem("hotel_reviews", JSON.stringify(existing));
+    }
   };
 
   if (!request) return null;
@@ -77,34 +110,34 @@ export default function SuccessScreen({ request, onClose }) {
             <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 p-6 rounded-2xl border-2 border-amber-200/50 shadow-inner">
               <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Booking Reference</p>
               <div className="flex items-center justify-center gap-3">
-                <p className="text-2xl font-bold text-amber-600 font-mono tracking-wider">{request.bookingCode}</p>
+                <p className="text-2xl font-bold text-amber-600 font-mono tracking-wider">{request.booking_code || request.bookingCode}</p>
                 <button
-                  onClick={() => handleCopyCode(request.bookingCode)}
+                  onClick={() => handleCopyCode(request.booking_code || request.bookingCode)}
                   className="p-2 bg-white rounded-lg hover:bg-gray-50 transition-all shadow-sm"
                   title="Copy code"
                 >
                   {copied ? '✓' : '📋'}
                 </button>
               </div>
-              <p className="text-xs text-gray-400 mt-2">Verification: {request.verificationCode}</p>
+              <p className="text-xs text-gray-400 mt-2">Verification: {request.verification_code || request.verificationCode}</p>
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-3 text-sm bg-gray-50 p-4 rounded-2xl">
               <div className="text-left">
                 <p className="text-gray-400 text-xs">Service</p>
-                <p className="font-medium text-gray-800">{request.service.title}</p>
+                <p className="font-medium text-gray-800">{request.service?.title || request.service_title}</p>
               </div>
               <div className="text-left">
                 <p className="text-gray-400 text-xs">Date</p>
-                <p className="font-medium text-gray-800">{new Date(request.booking.date).toLocaleDateString()}</p>
+                <p className="font-medium text-gray-800">{new Date(request.booking_date || request.booking?.date).toLocaleDateString()}</p>
               </div>
               <div className="text-left">
                 <p className="text-gray-400 text-xs">Room</p>
-                <p className="font-medium text-gray-800">{request.customer.roomNumber}</p>
+                <p className="font-medium text-gray-800">{request.room_number || request.roomNumber}</p>
               </div>
               <div className="text-left">
                 <p className="text-gray-400 text-xs">Guest</p>
-                <p className="font-medium text-gray-800">{request.customer.name}</p>
+                <p className="font-medium text-gray-800">{request.customer_name || request.customer?.name}</p>
               </div>
             </div>
 
@@ -152,7 +185,7 @@ export default function SuccessScreen({ request, onClose }) {
       {showReviewForm && (
         <ReviewForm
           service={request.service}
-          bookingCode={request.bookingCode}
+          bookingCode={request.booking_code || request.bookingCode}
           onClose={() => setShowReviewForm(false)}
           onSubmit={handleReviewSubmit}
         />
@@ -174,7 +207,7 @@ export default function SuccessScreen({ request, onClose }) {
               </button>
             </div>
             <div className="p-6">
-              <ReviewsList serviceId={request.service.id} limit={10} />
+              <ReviewsList serviceId={request.service_id || request.service?.id} limit={10} />
             </div>
           </div>
         </div>

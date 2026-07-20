@@ -1,5 +1,6 @@
 // src/components/RequestForm.jsx
 import { useState } from "react";
+import { supabase } from "../utils/supabase";
 
 export default function RequestForm({ service, onClose, onSuccess }) {
   const [formData, setFormData] = useState({
@@ -45,41 +46,76 @@ export default function RequestForm({ service, onClose, onSuccess }) {
     }, 800);
   };
 
-  const handleConfirm = () => {
-    const request = {
-      requestId: Date.now().toString(),
-      bookingCode: generatedCode,
-      verificationCode: Math.floor(100000 + Math.random() * 900000).toString(),
-      roomNumber: formData.roomNumber,
-      service: {
-        id: service.id,
-        code: service.code,
-        title: service.title,
-        category: service.category,
-        price: `${service.price} ${service.priceUnit}`,
-        time: service.time,
-        location: service.location,
-        icon: service.icon
-      },
-      customer: {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone
-      },
-      booking: {
-        date: formData.date,
-        guests: parseInt(formData.guests),
-        message: formData.message,
-        totalPrice: { formattedTotal: `${service.price} ${service.priceUnit}` }
-      },
-      status: "pending",
-      createdAt: new Date().toISOString()
+  const handleConfirm = async () => {
+    const requestData = {
+      request_id: Date.now().toString(),
+      booking_code: generatedCode,
+      verification_code: Math.floor(100000 + Math.random() * 900000).toString(),
+      room_number: formData.roomNumber,
+      service_id: service.id,
+      customer_name: formData.name,
+      customer_email: formData.email,
+      customer_phone: formData.phone,
+      booking_date: formData.date,
+      guests: parseInt(formData.guests),
+      message: formData.message,
+      total_price: `${service.price} ${service.priceUnit}`,
+      status: "pending"
     };
-    
-    const existing = JSON.parse(localStorage.getItem("hotel_requests") || "[]");
-    existing.push(request);
-    localStorage.setItem("hotel_requests", JSON.stringify(existing));
-    onSuccess(request);
+
+    try {
+      // Сохраняем в Supabase
+      const { data, error } = await supabase
+        .from('requests')
+        .insert([requestData])
+        .select();
+
+      if (error) {
+        console.error('❌ Error saving to Supabase:', error);
+        // Fallback: сохраняем в localStorage
+        const existing = JSON.parse(localStorage.getItem("hotel_requests") || "[]");
+        existing.push(requestData);
+        localStorage.setItem("hotel_requests", JSON.stringify(existing));
+        console.log('📦 Saved to localStorage (fallback)');
+      } else {
+        console.log('✅ Request saved to Supabase:', data);
+      }
+
+      onSuccess({
+        ...requestData,
+        service: service,
+        customer: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone
+        },
+        booking: {
+          date: formData.date,
+          guests: parseInt(formData.guests),
+          message: formData.message
+        }
+      });
+    } catch (error) {
+      console.error('❌ Error:', error);
+      // Fallback: сохраняем в localStorage
+      const existing = JSON.parse(localStorage.getItem("hotel_requests") || "[]");
+      existing.push(requestData);
+      localStorage.setItem("hotel_requests", JSON.stringify(existing));
+      onSuccess({
+        ...requestData,
+        service: service,
+        customer: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone
+        },
+        booking: {
+          date: formData.date,
+          guests: parseInt(formData.guests),
+          message: formData.message
+        }
+      });
+    }
   };
 
   if (step === 2) {
@@ -139,7 +175,6 @@ export default function RequestForm({ service, onClose, onSuccess }) {
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4 overflow-y-auto animate-fadeIn">
       <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-amber-100/30 animate-slideUp">
-        {/* Header */}
         <div className="sticky top-0 bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100 px-6 py-5 flex justify-between items-center border-b border-amber-200/50 rounded-t-3xl">
           <div>
             <h2 className="text-2xl font-serif font-bold text-gray-800">Complete Your Booking</h2>
@@ -156,7 +191,6 @@ export default function RequestForm({ service, onClose, onSuccess }) {
           </button>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleGenerateCode} className="p-6 space-y-4">
           <div className="bg-gradient-to-br from-amber-50/80 via-orange-50/80 to-amber-100/80 rounded-2xl p-4 flex items-center gap-4 border border-amber-200/30 shadow-sm">
             <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg flex-shrink-0">
@@ -172,7 +206,6 @@ export default function RequestForm({ service, onClose, onSuccess }) {
             </div>
           </div>
 
-          {/* Full Name */}
           <div className="group">
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">
               Full Name <span className="text-red-500">*</span>
@@ -190,7 +223,7 @@ export default function RequestForm({ service, onClose, onSuccess }) {
             {errors.name && <p className="text-red-500 text-xs mt-1 animate-shake">{errors.name}</p>}
           </div>
 
-          <div className="group">
+          <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">
               Email <span className="text-red-500">*</span>
             </label>
